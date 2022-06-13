@@ -10,13 +10,13 @@ const Navbar: React.FC<NavbarProps> = () => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <header className="py-4 bg-white">
+    <header className="py-4 bg-primary">
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           <div className="flex-shrink-0">
             <a href="#" title="" className="flex">
               <Image
-                src="/tokel-black.svg"
+                src="/tokel.svg"
                 alt="Tokel Logo"
                 width={90}
                 height={45}
@@ -27,7 +27,7 @@ const Navbar: React.FC<NavbarProps> = () => {
           <div className="flex lg:hidden">
             <button
               type="button"
-              className="text-gray-900"
+              className="text-gray-100"
               onClick={() => setIsExpanded(!isExpanded)}
             >
               {isExpanded ? (
@@ -99,7 +99,7 @@ const Navbar: React.FC<NavbarProps> = () => {
             <a
               href="#"
               title=""
-              className="text-base font-medium text-gray-900 transition-all duration-200 rounded focus:outline-none font-pj hover:text-opacity-50 focus:ring-1 focus:ring-gray-900 focus:ring-offset-2"
+              className="text-base font-medium text-gray-100 transition-all duration-200 rounded focus:outline-none font-pj hover:text-opacity-50 focus:ring-1 focus:ring-gray-900 focus:ring-offset-2"
             >
               Collections
             </a>
@@ -107,7 +107,7 @@ const Navbar: React.FC<NavbarProps> = () => {
             <a
               href="#"
               title=""
-              className="text-base font-medium text-gray-900 transition-all duration-200 rounded focus:outline-none font-pj hover:text-opacity-50 focus:ring-1 focus:ring-gray-900 focus:ring-offset-2"
+              className="text-base font-medium text-gray-100 transition-all duration-200 rounded focus:outline-none font-pj hover:text-opacity-50 focus:ring-1 focus:ring-gray-900 focus:ring-offset-2"
             >
               Create
             </a>
@@ -124,16 +124,16 @@ const Navbar: React.FC<NavbarProps> = () => {
                         text-base
                         font-semibold
                         leading-7
-                        text-gray-900
+                        text-gray-100
                         transition-all
                         duration-200
                         bg-transparent
-                        border border-gray-900
+                        border border-gray-100
                         rounded-xl
                         font-pj
-                        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900
-                        hover:bg-gray-900 hover:text-white
-                        focus:bg-gray-900 focus:text-white
+                        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-100
+                        hover:bg-gray-100 hover:text-white
+                        focus:bg-gray-100 focus:text-white
                     "
               role="button"
             >
