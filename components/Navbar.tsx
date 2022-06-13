@@ -1,3 +1,4 @@
+import { MenuIcon, SearchIcon, XIcon } from "@heroicons/react/solid";
 import React, { useState } from "react";
 
 import Image from "next/image";
@@ -15,12 +16,7 @@ const Navbar: React.FC<NavbarProps> = () => {
         <div className="flex items-center justify-between">
           <div className="flex-shrink-0">
             <a href="#" title="" className="flex">
-              <Image
-                src="/tokel.svg"
-                alt="Tokel Logo"
-                width={90}
-                height={45}
-              />
+              <Image src="/tokel.svg" alt="Tokel Logo" width={90} height={45} />
             </a>
           </div>
 
@@ -32,37 +28,11 @@ const Navbar: React.FC<NavbarProps> = () => {
             >
               {isExpanded ? (
                 <span x-show="expanded" aria-hidden="true">
-                  <svg
-                    className="w-7 h-7"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
+                  <XIcon className="w-7 h-7" />
                 </span>
               ) : (
                 <span aria-hidden="true">
-                  <svg
-                    className="w-7 h-7"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.5"
-                      d="M4 6h16M4 12h16M4 18h16"
-                    />
-                  </svg>
+                  <MenuIcon className="w-7 h-7" />
                 </span>
               )}
             </button>
@@ -71,20 +41,7 @@ const Navbar: React.FC<NavbarProps> = () => {
           <nav className="hidden lg:flex lg:items-center lg:justify-center lg:space-x-12">
             <div className="relative w-96">
               <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-5 h-5 text-gray-400"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
-                </svg>
+                <SearchIcon className="w-5 h-5 text-gray-400" />
               </div>
 
               <input

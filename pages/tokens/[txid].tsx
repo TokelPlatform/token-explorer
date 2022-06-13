@@ -1,19 +1,8 @@
 import React, { useMemo } from "react";
 
+import { ExternalLinkIcon } from "@heroicons/react/solid";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
-
-const ExternalLinkSvg = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className="h-5 w-5 ml-1"
-    viewBox="0 0 20 20"
-    fill="currentColor"
-  >
-    <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
-    <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
-  </svg>
-);
 
 interface TokenSingleProps {
   token: any;
@@ -63,7 +52,7 @@ const TokenSingle: React.FC<TokenSingleProps> = ({ token }) => {
                   target="_blank"
                 >
                   {token.tokenid}
-                  <ExternalLinkSvg />
+                  <ExternalLinkIcon className="h-5 w-5 ml-1" />
                 </a>
               </p>
 
@@ -75,7 +64,7 @@ const TokenSingle: React.FC<TokenSingleProps> = ({ token }) => {
                   target="_blank"
                 >
                   {token.owner}
-                  <ExternalLinkSvg />
+                  <ExternalLinkIcon className="h-5 w-5 ml-1" />
                 </a>
               </p>
 
@@ -87,7 +76,7 @@ const TokenSingle: React.FC<TokenSingleProps> = ({ token }) => {
                   target="_blank"
                 >
                   RAyYBfQSbrVbkK7AvdjWC7cdZkJEXgDyUE
-                  <ExternalLinkSvg />
+                  <ExternalLinkIcon className="h-5 w-5 ml-1" />
                 </a>
               </p>
 
@@ -210,7 +199,7 @@ const TokenSingle: React.FC<TokenSingleProps> = ({ token }) => {
                           target="_blank"
                         >
                           RAyYBfQSbrVbkK7AvdjWC7cdZkJEXgDyUE
-                          <ExternalLinkSvg />
+                          <ExternalLinkIcon className="h-5 w-5 ml-1" />
                         </a>
                       </td>
 
@@ -232,7 +221,7 @@ const TokenSingle: React.FC<TokenSingleProps> = ({ token }) => {
                           className="inline-flex items-center justify-center px-2 py-1 text-sm font-bold leading-7 text-blue-500 transition-all duration-200 border-blue-500 border-2 bg-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 hover:text-white hover:border-transparent focus:ring-blue-900 hover:bg-blue-700"
                         >
                           Fill
-                          <ExternalLinkSvg />
+                          <ExternalLinkIcon className="h-5 w-5 ml-1" />
                         </button>
                       </td>
                     </tr>

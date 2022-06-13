@@ -1,3 +1,4 @@
+import { ArrowCircleRightIcon } from "@heroicons/react/outline";
 import React from "react";
 
 interface HomeHeroProps {
@@ -8,11 +9,7 @@ const HomeHero: React.FC<HomeHeroProps> = () => {
   return (
     <section className="relative py-12 bg-primary sm:py-16 lg:py-20 xl:py-24">
       <div className="absolute inset-0">
-        <img
-          className="object-cover w-full h-full"
-          src="/bg.png"
-          alt=""
-        />
+        <img className="object-cover w-full h-full" src="/bg.png" alt="" />
       </div>
       <div className="absolute inset-0 hidden lg:block">
         <img
@@ -41,20 +38,7 @@ const HomeHero: React.FC<HomeHeroProps> = () => {
                 role="button"
               >
                 Explore the chain
-                <svg
-                  className="w-5 h-5 ml-2 -mr-0.5"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
+                <ArrowCircleRightIcon className="w-5 h-5 ml-2 -mr-0.5" />
               </a>
 
               <a
@@ -64,20 +48,7 @@ const HomeHero: React.FC<HomeHeroProps> = () => {
                 role="button"
               >
                 Discover creators
-                <svg
-                  className="w-5 h-5 ml-2 -mr-0.5"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
+                <ArrowCircleRightIcon className="w-5 h-5 ml-2 -mr-0.5" />
               </a>
             </div>
 
