@@ -1,8 +1,9 @@
-import { MenuIcon, SearchIcon, XIcon } from "@heroicons/react/solid";
+import { MenuIcon, XIcon } from "@heroicons/react/solid";
 import React, { useState } from "react";
 
 import Image from "next/image";
 import Link from "next/link";
+import NavSearch from "./NavSearch";
 
 interface NavbarProps {
 }
@@ -46,19 +47,7 @@ const Navbar: React.FC<NavbarProps> = () => {
             </button>
           </div>
 
-          <nav className="hidden lg:flex lg:items-center lg:justify-center lg:space-x-12">
-            <div className="relative w-96">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-                <SearchIcon className="w-5 h-5 text-gray-400" />
-              </div>
-
-              <input
-                type="text"
-                placeholder="Search the Tokel blockchain..."
-                className="focus:outline-0 block w-full py-3 pl-12 pr-4 placeholder-gray-500 rounded-lg sm:text-sm"
-              />
-            </div>
-          </nav>
+          <NavSearch />
 
           <nav className="hidden lg:flex lg:items-center lg:justify-end lg:space-x-10">
             <a
