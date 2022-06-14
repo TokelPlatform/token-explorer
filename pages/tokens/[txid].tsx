@@ -3,6 +3,7 @@ import React, { useMemo } from "react";
 import { ExternalLinkIcon } from "@heroicons/react/solid";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
+import Tabs from "../../components/Tabs";
 
 interface TokenSingleProps {
   token: any;
@@ -138,96 +139,223 @@ const TokenSingle: React.FC<TokenSingleProps> = ({ token }) => {
             </div>
 
             <div className="lg:col-span-3">
-              <div className="border-b border-gray-200">
-                <nav className="flex -mb-px space-x-8 sm:space-x-14">
-                  <a
-                    href="#"
-                    title=""
-                    className="py-4 text-sm font-medium text-soft border-b-2 border-transparent hover:text-white hover:border-gray-300 whitespace-nowrap"
-                  >
-                    Activity
-                  </a>
+              <Tabs
+                tabs={[
+                  {
+                    title: "Activity",
+                    content: (
+                      <div className="flow-root mt-2 sm:mt-4 bg-soft p-4 rounded-lg overflow-scroll">
+                        <table className="min-w-full lg:divide-y lg:divide-gray-400">
+                          <thead className="hidden lg:table-header-group">
+                            <tr>
+                              <td className="px-4 py-4 text-sm font-medium text-gray-400 whitespace-normal">
+                                Date
+                              </td>
 
-                  <a
-                    href="#"
-                    title=""
-                    className="inline-flex items-center py-4 text-sm font-medium text-white border-b-2 border-white whitespace-nowrap"
-                  >
-                    Listings
-                  </a>
+                              <td className="px-4 py-4 text-sm font-medium text-gray-400 whitespace-normal">
+                                Event
+                              </td>
 
-                  <a
-                    href="#"
-                    title=""
-                    className="py-4 text-sm font-medium text-soft border-b-2 border-transparent hover:text-white hover:border-gray-300 whitespace-nowrap"
-                  >
-                    Offers
-                  </a>
-                </nav>
-              </div>
+                              <td className="px-4 py-4 text-sm font-medium text-gray-400 whitespace-normal">
+                                From
+                              </td>
 
-              <div className="flow-root mt-2 sm:mt-4 bg-soft p-4 rounded-lg overflow-scroll">
-                <table className="min-w-full lg:divide-y lg:divide-gray-400">
-                  <thead className="hidden lg:table-header-group">
-                    <tr>
-                      <td className="px-4 py-4 text-sm font-medium text-gray-400 whitespace-normal">
-                        Seller
-                      </td>
+                              <td className="px-4 py-4 text-sm font-medium text-gray-400 whitespace-normal">
+                                To
+                              </td>
 
-                      <td className="px-4 py-4 text-sm font-medium text-gray-400 whitespace-normal">
-                        Amount
-                      </td>
+                              <td className="px-4 py-4 text-sm font-medium text-gray-400 whitespace-normal">
+                                Price
+                              </td>
 
-                      <td className="px-4 py-4 text-sm font-medium text-gray-400 whitespace-normal">
-                        Price
-                      </td>
+                              <td></td>
+                            </tr>
+                          </thead>
 
-                      <td className="px-4 py-4 text-sm font-medium text-gray-400 whitespace-normal">
-                        Total
-                      </td>
+                          <tbody className="divide-y divide-gray-400">
+                            <tr>
+                              <td className="px-4 py-4">
+                                <a
+                                  className="text-blue-500 hover:text-blue-700 text-sm whitespace-nowrap flex truncate"
+                                  href="http://explorer.komodoplatform.com:20000/tx/ca771cd29ee8908b2bd84e39500fba743f40a5ce8fff48b68db15f7fb7f78615/TKLTEST2"
+                                  target="_blank"
+                                >
+                                  Oct. 20, 2021
+                                  <ExternalLinkIcon className="h-5 w-5 ml-1" />
+                                </a>
+                              </td>
 
-                      <td></td>
-                    </tr>
-                  </thead>
+                              <td className="hidden px-4 py-4 text-sm font-medium text-gray-900 lg:table-cell whitespace-nowrap">
+                                Transfer
+                              </td>
 
-                  <tbody className="divide-y divide-gray-400">
-                    <tr>
-                      <td className="px-4 py-4">
-                        <a
-                          className="text-blue-500 hover:text-blue-700 text-sm whitespace-nowrap flex truncate"
-                          href="http://explorer.komodoplatform.com:20000/tx/ca771cd29ee8908b2bd84e39500fba743f40a5ce8fff48b68db15f7fb7f78615/TKLTEST2"
-                          target="_blank"
-                        >
-                          RAyYBfQSbrVbkK7AvdjWC7cdZkJEXgDyUE
-                          <ExternalLinkIcon className="h-5 w-5 ml-1" />
-                        </a>
-                      </td>
+                              <td className="px-4 py-4 text-sm font-medium text-right text-gray-900 lg:text-left whitespace-nowrap">
+                                <a
+                                  className="text-blue-500 hover:text-blue-700 text-sm whitespace-nowrap flex truncate"
+                                  href="http://explorer.komodoplatform.com:20000/tx/ca771cd29ee8908b2bd84e39500fba743f40a5ce8fff48b68db15f7fb7f78615/TKLTEST2"
+                                  target="_blank"
+                                >
+                                  RAyYBfQSbrVbkK7AvdjWC7cdZkJEXgDyUE
+                                  <ExternalLinkIcon className="h-5 w-5 ml-1" />
+                                </a>
+                              </td>
 
-                      <td className="hidden px-4 py-4 text-sm font-medium text-gray-900 lg:table-cell whitespace-nowrap">
-                        1
-                      </td>
+                              <td className="px-4 py-4 text-sm font-medium text-right text-gray-900 lg:text-left whitespace-nowrap">
+                                <a
+                                  className="text-blue-500 hover:text-blue-700 text-sm whitespace-nowrap flex truncate"
+                                  href="http://explorer.komodoplatform.com:20000/tx/ca771cd29ee8908b2bd84e39500fba743f40a5ce8fff48b68db15f7fb7f78615/TKLTEST2"
+                                  target="_blank"
+                                >
+                                  RAyYBfQSbrVbkK7AvdjWC7cdZkJEXgDyUE
+                                  <ExternalLinkIcon className="h-5 w-5 ml-1" />
+                                </a>
+                              </td>
 
-                      <td className="px-4 py-4 text-sm font-medium text-right text-gray-900 lg:text-left whitespace-nowrap">
-                        320 TKL
-                      </td>
+                              <td className="hidden px-4 py-4 text-sm font-medium text-gray-900 lg:table-cell whitespace-nowrap">
+                                320 TKL
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    ),
+                  },
+                  {
+                    title: "Listings",
+                    content: (
+                      <div className="flow-root mt-2 sm:mt-4 bg-soft p-4 rounded-lg overflow-scroll">
+                        <table className="min-w-full lg:divide-y lg:divide-gray-400">
+                          <thead className="hidden lg:table-header-group">
+                            <tr>
+                              <td className="px-4 py-4 text-sm font-medium text-gray-400 whitespace-normal">
+                                Seller
+                              </td>
 
-                      <td className="hidden px-4 py-4 text-sm font-medium text-gray-900 lg:table-cell whitespace-nowrap">
-                        320 TKL
-                      </td>
+                              <td className="px-4 py-4 text-sm font-medium text-gray-400 whitespace-normal">
+                                Amount
+                              </td>
 
-                      <td>
-                        <button
-                          type="button"
-                          className="inline-flex items-center justify-center px-2 py-1 text-sm font-bold leading-7 text-blue-500 transition-all duration-200 border-blue-500 border-2 bg-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 hover:text-white hover:border-transparent focus:ring-blue-900 hover:bg-blue-700"
-                        >
-                          Fill
-                          <ExternalLinkIcon className="h-5 w-5 ml-1" />
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+                              <td className="px-4 py-4 text-sm font-medium text-gray-400 whitespace-normal">
+                                Price
+                              </td>
+
+                              <td className="px-4 py-4 text-sm font-medium text-gray-400 whitespace-normal">
+                                Total
+                              </td>
+
+                              <td></td>
+                            </tr>
+                          </thead>
+
+                          <tbody className="divide-y divide-gray-400">
+                            <tr>
+                              <td className="px-4 py-4">
+                                <a
+                                  className="text-blue-500 hover:text-blue-700 text-sm whitespace-nowrap flex truncate"
+                                  href="http://explorer.komodoplatform.com:20000/tx/ca771cd29ee8908b2bd84e39500fba743f40a5ce8fff48b68db15f7fb7f78615/TKLTEST2"
+                                  target="_blank"
+                                >
+                                  RAyYBfQSbrVbkK7AvdjWC7cdZkJEXgDyUE
+                                  <ExternalLinkIcon className="h-5 w-5 ml-1" />
+                                </a>
+                              </td>
+
+                              <td className="hidden px-4 py-4 text-sm font-medium text-gray-900 lg:table-cell whitespace-nowrap">
+                                1
+                              </td>
+
+                              <td className="px-4 py-4 text-sm font-medium text-right text-gray-900 lg:text-left whitespace-nowrap">
+                                320 TKL
+                              </td>
+
+                              <td className="hidden px-4 py-4 text-sm font-medium text-gray-900 lg:table-cell whitespace-nowrap">
+                                320 TKL
+                              </td>
+
+                              <td>
+                                <button
+                                  type="button"
+                                  className="inline-flex items-center justify-center px-2 py-1 text-sm font-bold leading-7 text-blue-500 transition-all duration-200 border-blue-500 border-2 bg-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 hover:text-white hover:border-transparent focus:ring-blue-900 hover:bg-blue-700"
+                                >
+                                  Fill
+                                  <ExternalLinkIcon className="h-5 w-5 ml-1" />
+                                </button>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    ),
+                  },
+                  {
+                    title: "Offerings",
+                    content: (
+                      <div className="flow-root mt-2 sm:mt-4 bg-soft p-4 rounded-lg overflow-scroll">
+                        <table className="min-w-full lg:divide-y lg:divide-gray-400">
+                          <thead className="hidden lg:table-header-group">
+                            <tr>
+                              <td className="px-4 py-4 text-sm font-medium text-gray-400 whitespace-normal">
+                                Buyer
+                              </td>
+
+                              <td className="px-4 py-4 text-sm font-medium text-gray-400 whitespace-normal">
+                                Amount
+                              </td>
+
+                              <td className="px-4 py-4 text-sm font-medium text-gray-400 whitespace-normal">
+                                Price
+                              </td>
+
+                              <td className="px-4 py-4 text-sm font-medium text-gray-400 whitespace-normal">
+                                Total
+                              </td>
+
+                              <td></td>
+                            </tr>
+                          </thead>
+
+                          <tbody className="divide-y divide-gray-400">
+                            <tr>
+                              <td className="px-4 py-4">
+                                <a
+                                  className="text-blue-500 hover:text-blue-700 text-sm whitespace-nowrap flex truncate"
+                                  href="http://explorer.komodoplatform.com:20000/tx/ca771cd29ee8908b2bd84e39500fba743f40a5ce8fff48b68db15f7fb7f78615/TKLTEST2"
+                                  target="_blank"
+                                >
+                                  RAyYBfQSbrVbkK7AvdjWC7cdZkJEXgDyUE
+                                  <ExternalLinkIcon className="h-5 w-5 ml-1" />
+                                </a>
+                              </td>
+
+                              <td className="hidden px-4 py-4 text-sm font-medium text-gray-900 lg:table-cell whitespace-nowrap">
+                                1
+                              </td>
+
+                              <td className="px-4 py-4 text-sm font-medium text-right text-gray-900 lg:text-left whitespace-nowrap">
+                                320 TKL
+                              </td>
+
+                              <td className="hidden px-4 py-4 text-sm font-medium text-gray-900 lg:table-cell whitespace-nowrap">
+                                320 TKL
+                              </td>
+
+                              <td>
+                                <button
+                                  type="button"
+                                  className="inline-flex items-center justify-center px-2 py-1 text-sm font-bold leading-7 text-blue-500 transition-all duration-200 border-blue-500 border-2 bg-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 hover:text-white hover:border-transparent focus:ring-blue-900 hover:bg-blue-700"
+                                >
+                                  Fill
+                                  <ExternalLinkIcon className="h-5 w-5 ml-1" />
+                                </button>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    ),
+                  },
+                ]}
+              />
             </div>
           </div>
         </div>
