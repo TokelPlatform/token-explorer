@@ -2,6 +2,7 @@ import { MenuIcon, SearchIcon, XIcon } from "@heroicons/react/solid";
 import React, { useState } from "react";
 
 import Image from "next/image";
+import Link from "next/link";
 
 interface NavbarProps {
 }
@@ -15,9 +16,16 @@ const Navbar: React.FC<NavbarProps> = () => {
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           <div className="flex-shrink-0">
-            <a href="#" title="" className="flex">
-              <Image src="/tokel.svg" alt="Tokel Logo" width={90} height={45} />
-            </a>
+            <Link href="/">
+              <a title="" className="flex">
+                <Image
+                  src="/tokel.svg"
+                  alt="Tokel Logo"
+                  width={90}
+                  height={45}
+                />
+              </a>
+            </Link>
           </div>
 
           <div className="flex lg:hidden">
