@@ -50,13 +50,14 @@ const Navbar: React.FC<NavbarProps> = () => {
           <NavSearch />
 
           <nav className="hidden lg:flex lg:items-center lg:justify-end lg:space-x-10">
-            <a
-              href="#"
-              title=""
-              className="text-base font-medium text-gray-100 transition-all duration-200 rounded focus:outline-none font-pj hover:text-opacity-50 focus:ring-1 focus:ring-gray-900 focus:ring-offset-2"
-            >
-              Collections
-            </a>
+            <Link href="/explore">
+              <a
+                title="Explore Tokel"
+                className="text-base font-medium text-gray-100 transition-all duration-200 rounded focus:outline-none font-pj hover:text-opacity-50 focus:ring-1 focus:ring-gray-900 focus:ring-offset-2"
+              >
+                Explore
+              </a>
+            </Link>
 
             <a
               href="#"
