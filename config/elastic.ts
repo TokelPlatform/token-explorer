@@ -1,14 +1,14 @@
 const { Client } = require('@elastic/elasticsearch')
 // const SmartChain = require ("komodo-rpc-js");
 
-import { elasticConf, tokelConf } from ".";
+import { elasticConf } from ".";
 
 export const elasticclient = new Client({
     // node: process.env.LOCAL_RUN ? 'https://localhost:9200' : 'https://167.99.114.240:9200', 
 
-    node: 'https://167.99.114.240:9200', 
+    node: 'https://'.concat(process.env.ELASTIC_SERVER ? process.env.ELASTIC_SERVER : 'localhost', ':', elasticConf.port),
     auth: {
-      username: 'elastic',
+      username: process.env.ELASTIC_USER,
       password: process.env.ELASTIC_PASS
     },
     tls: {

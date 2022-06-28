@@ -17,7 +17,24 @@ type ElasticQuery = {
   size: number;
   sort?: any;
   query?: {
-    wildcard?: {}
+    match_phrase_prefix?: {
+      [key: string]: {
+        "query": string
+      }
+    },
+    wildcard?: {
+      [key: string] : {
+        value: string,
+        case_insensitive: boolean
+      }
+    };
+    bool?: {
+      must: {
+        match: {
+          [x: string]: string
+        }
+      }
+    }
   };
 };
 
@@ -27,11 +44,9 @@ const wildcardQuery = (key: string, value: string) => ({
 })
 
 const matchQuery = (key: string, value: string) => ({
-    bool: {
-      must: {
-        match: {
-          [key]: value
-        }
+    must: {
+      match: {
+        [key]: value
       }
     }
 })
@@ -54,23 +69,33 @@ export const elasticQuery = async (
   if (sort) {
     q.sort = sort;
   }
-  
+
   if (filterBy) {
-    q.query = {};
-    q.query.wildcard ={}
     filterBy.forEach((value) => {
-      let key = Object.keys(value)[0];
-      
-      // exact match for these
-      const match = ['tokenid', 'id', 'owner', 'height']
-      if (match.indexOf(key) !== -1) {
-        q.query = matchQuery(key, value[key]);
+      const key: string = Object.keys(value)[0].toString();
+      let words = value[key].split(' ');
+      q.query = q.query ? q.query : {};
+      if (words.length > 1) {
+        q.query.match_phrase_prefix = {
+          [key]: {
+            "query": value[key]
+          }
+        }
+
+  
       } else {
-        q.query.wildcard[key] =   wildcardQuery(key, value[key])
+        const match = ['tokenid', 'id', 'owner', 'height']
+        if (match.indexOf(key) !== -1) {
+          q.query.bool = matchQuery(key, value[key]);
+        } else {
+          q.query.wildcard = {};
+          q.query.wildcard[key] = wildcardQuery(key, value[key])
+        }
       }
     })
   }
 
-  console.log('QUERY: ', q);
+  console.log('query: ', q.query);
+  console.log('wildcard: ', q.query?.wildcard);
   return elasticclient.helpers.search(q);
 };
