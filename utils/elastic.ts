@@ -12,7 +12,7 @@ export type Wildcard = {
 };
 
 type ElasticQuery = {
-  index: string;
+  index: string | undefined;
   from: number;
   size: number;
   sort?: any;
