@@ -39,16 +39,16 @@ type ElasticQuery = {
 };
 
 const wildcardQuery = (key: string, value: string) => ({
-    value: `*${value}*`,
-    case_insensitive: true
+  value: `*${value}*`,
+  case_insensitive: true
 })
 
 const matchQuery = (key: string, value: string) => ({
-    must: {
-      match: {
-        [key]: value
-      }
+  must: {
+    match: {
+      [key]: value
     }
+  }
 })
 
 export const elasticQuery = async (

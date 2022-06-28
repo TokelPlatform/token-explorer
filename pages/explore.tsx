@@ -14,7 +14,7 @@ const FilterCheckbox = ({ label }: { label: string }) => (
         name=""
         id=""
         className="w-5 h-5 text-white border-gray-300 rounded-sm focus:ring-gray-900"
-        checked
+        defaultChecked
       />
     </div>
     <div className="ml-3 text-sm">
@@ -58,9 +58,9 @@ const Explore: React.FC<ExploreProps> = () => {
                   stroke="currentColor"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     d="M19 9l-7 7-7-7"
                   />
                 </svg>
@@ -79,9 +79,9 @@ const Explore: React.FC<ExploreProps> = () => {
                   stroke="currentColor"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     d="M19 9l-7 7-7-7"
                   />
                 </svg>
@@ -103,9 +103,9 @@ const Explore: React.FC<ExploreProps> = () => {
                   stroke="currentColor"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     d="M6 18L18 6M6 6l12 12"
                   />
                 </svg>
