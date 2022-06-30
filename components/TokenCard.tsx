@@ -1,4 +1,8 @@
-import { DEFAULT_IPFS_FALLBACK_GATEWAY } from "../utils/defines";
+import { DEFAULT_IPFS_FALLBACK_GATEWAY, PATHS } from "../utils/defines";
+
+import { EyeIcon } from "@heroicons/react/solid";
+import Identicon from "identicon.js";
+import Link from "next/link";
 import React from "react";
 import Token from "../types/Token";
 import { extractIPFSHash } from "../utils/helpers";
@@ -15,6 +19,7 @@ const TokenCard: React.FC<TokenCardProps> = ({ token }) => {
     : token.dataAsJson.url;
 
   const trimmedAuthorPublicKey = `${token.owner.substring(0, 4)}...${token.owner.substring(token.owner.length - 4)}`;
+  const authorIdenticon = new Identicon(token.owner, 50).toString();
 
   return (
     <div className="flex flex-col overflow-hidden transition-all duration-200 transform bg-white border rounded-lg border-gray-700 hover:shadow-lg hover:-translate-y-1">
@@ -22,8 +27,8 @@ const TokenCard: React.FC<TokenCardProps> = ({ token }) => {
         <div className="flex items-center">
           <img
             className="object-cover w-5 h-5 rounded-full shrink-0"
-            src="https://landingfoliocom.imgix.net/store/collection/niftyui/images/featured-drops-marketplace/7/author.png"
-            alt=""
+            src={`data:image/png;base64,${authorIdenticon}`}
+            alt={token.owner}
           />
           <a
             href="#"
@@ -60,8 +65,8 @@ const TokenCard: React.FC<TokenCardProps> = ({ token }) => {
 
       <div className="p-4 border-t border-gray-700 mt-auto">
         <div className="flex items-center justify-between space-x-6">
-          {!!token.dataAsJson.arbitrary?.collection_name && (
-            <div className="flex items-center flex-1">
+          <div className="flex items-center flex-1">
+            {!!token.dataAsJson.arbitrary?.collection_name && (
               <div className="flex-1 ml-3">
                 <p className="text-xs font-medium text-gray-500 uppercase">
                   Collection
@@ -70,18 +75,19 @@ const TokenCard: React.FC<TokenCardProps> = ({ token }) => {
                   {token.dataAsJson.arbitrary?.collection_name}
                 </p>
               </div>
-            </div>
-          )}
+            )}
+          </div>
 
           <div>
-            <a
-              href="#"
-              title=""
-              className="inline-flex items-center justify-center px-3 py-2 text-xs font-bold tracking-widest text-primary uppercase transition-all duration-200 bg-transparent border border-primary rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary hover:border-primary hover:bg-primary hover:text-white"
-              role="button"
-            >
-              Place bid
-            </a>
+            <Link href={PATHS.TOKEN(token.tokenid)}>
+              <a
+                title=""
+                className="inline-flex items-center justify-center px-3 py-2 text-xs font-bold tracking-widest text-primary uppercase transition-all duration-200 bg-transparent border border-primary rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary hover:border-primary hover:bg-primary hover:text-white"
+                role="button"
+              >
+                <EyeIcon className="w-4 h-4" />
+              </a>
+            </Link>
           </div>
         </div>
       </div>

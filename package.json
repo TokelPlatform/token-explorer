@@ -12,6 +12,7 @@
     "@elastic/elasticsearch": "^8.2.1",
     "@headlessui/react": "^1.6.4",
     "@heroicons/react": "^1.0.6",
+    "@types/identicon.js": "^2.3.1",
     "classnames": "^2.3.1",
     "identicon.js": "^2.3.3",
     "joi": "^17.6.0",
