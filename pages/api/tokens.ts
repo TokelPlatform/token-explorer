@@ -2,6 +2,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Sort, elasticQuery } from "../../utils/elastic";
 
+import Joi from "joi";
+import validate from "utils/middlewares/validate";
+
 // FOR TESTING
 const wildcardQuery = {
   "dataAsJson.arbitrary.collection_name": "cyber",
@@ -23,31 +26,39 @@ const checkJSON = (toParse: any, err: string) => {
   }
 };
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<any>
-) {
-  if (req.method === "GET") {
-    try {
-      const sort = checkJSON(req.query.sort, "sort");
-      const search = checkJSON(req.query.search, "search");
-      const page = req.query.page
-        ? parseInt(req.query.page.toString())
-        : undefined;
-      const perPage = req.query.limit
-        ? parseInt(req.query.limit.toString())
-        : undefined;
+const sortSchema = Joi.object({
+  height: Joi.number(),
+});
 
-      console.log(req.query);
-      console.log("sort ", sort);
-      console.log("filter ", search);
+const schema = Joi.object({
+  sort: sortSchema,
+});
 
-      const result = await elasticQuery(page, perPage, sort, search);
-      return res.status(200).json(result);
-    } catch (e) {
-      console.log(e);
-      return res.status(400).json(e);
+export default validate(
+  { query: schema },
+  async (req: NextApiRequest, res: NextApiResponse<any>) => {
+    if (req.method === "GET") {
+      try {
+        const sort = checkJSON(req.query.sort, "sort");
+        const search = checkJSON(req.query.search, "search");
+        const page = req.query.page
+          ? parseInt(req.query.page.toString())
+          : undefined;
+        const perPage = req.query.limit
+          ? parseInt(req.query.limit.toString())
+          : undefined;
+
+        console.log(req.query);
+        console.log("sort ", sort);
+        console.log("filter ", search);
+
+        const result = await elasticQuery(page, perPage, sort, search);
+        return res.status(200).json(result);
+      } catch (e) {
+        console.log(e);
+        return res.status(400).json(e);
+      }
     }
+    return res.status(404);
   }
-  return res.status(404);
-}
+);

@@ -4,6 +4,7 @@ import { get, update } from "utils/elastic";
 
 import Joi from "joi";
 import { index } from "config/index";
+import nc from "next-connect";
 import validate from "utils/middlewares/validate";
 
 const schema = Joi.object({
@@ -11,26 +12,31 @@ const schema = Joi.object({
 });
 
 const bodySchema = Joi.object({
-  featured: Joi.boolean(),
+  featured: Joi.boolean().optional(),
 });
 
-export default validate(
-  { query: schema, body: bodySchema },
-  async (req: NextApiRequest, res: NextApiResponse) => {
-    try {
+export default nc({
+  onError: (err, _, res: NextApiResponse, __) => {
+    console.error(err.stack);
+    res.status(500).end();
+  },
+  onNoMatch: (_, res: NextApiResponse) => {
+    res.status(404).end();
+  },
+})
+  .get(
+    validate({ query: schema }),
+    async (req: NextApiRequest, res: NextApiResponse) => {
       const id = req.query.id.toString();
-      if (req.method === "PUT") {
-        await update(index.TOKENS, id, req.body);
-        return res.status(200).end();
-      } else if (req.method === "GET") {
-        const doc = await get(index.TOKENS, id);
-        return res.status(200).json({ doc: doc?._source });
-      } else {
-        res.status(404).end();
-      }
-    } catch (e) {
-      console.log(e);
-      return res.status(400).json(e);
+      const doc = await get(index.TOKENS, id);
+      return res.status(200).json({ doc: doc?._source });
     }
-  }
-);
+  )
+  .put(
+    validate({ query: schema, body: bodySchema }),
+    async (req: NextApiRequest, res: NextApiResponse) => {
+      const id = req.query.id.toString();
+      await update(index.TOKENS, id, req.body);
+      return res.status(200).end();
+    }
+  );
