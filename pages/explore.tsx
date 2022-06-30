@@ -2,8 +2,12 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Pagination from "../components/Pagination";
 import React from "react";
+import Token from "../types/Token";
+import TokenCard from "../components/TokenCard";
+import { elasticQuery } from "../utils/elastic";
 
 interface ExploreProps {
+  queryResults: Array<Token>;
 }
 
 const FilterCheckbox = ({ label }: { label: string }) => (
@@ -25,7 +29,8 @@ const FilterCheckbox = ({ label }: { label: string }) => (
   </div>
 );
 
-const Explore: React.FC<ExploreProps> = () => {
+const Explore: React.FC<ExploreProps> = ({ queryResults }) => {
+  console.log(queryResults, "queryResults");
 
   return (
     <div>
@@ -149,93 +154,7 @@ const Explore: React.FC<ExploreProps> = () => {
 
             <div className="lg:col-span-3">
               <div className="grid grid-cols-1 gap-6 px-6 mt-12 sm:mt-16 sm:px-0 sm:grid-cols-2 xl:grid-cols-3">
-                {Array(12)
-                  .fill(0)
-                  .map((_, i) => (
-                    <div
-                      key={i}
-                      className="overflow-hidden transition-all duration-200 transform bg-white border rounded-lg border-gray-700 hover:shadow-lg hover:-translate-y-1"
-                    >
-                      <div className="p-4">
-                        <div className="flex items-center">
-                          <img
-                            className="object-cover w-5 h-5 rounded-full shrink-0"
-                            src="https://landingfoliocom.imgix.net/store/collection/niftyui/images/featured-drops-marketplace/7/author.png"
-                            alt=""
-                          />
-                          <a
-                            href="#"
-                            title=""
-                            className="flex-1 ml-2 text-sm font-medium text-gray-700"
-                          >
-                            0xDD...2E08
-                          </a>
-                        </div>
-                      </div>
-
-                      <a
-                        href="#"
-                        title=""
-                        className="block overflow-hidden aspect-w-1 aspect-h-1"
-                      >
-                        <img
-                          className="object-cover w-full h-full"
-                          src="https://landingfoliocom.imgix.net/store/collection/niftyui/images/featured-drops-marketplace/6/drop-1.png"
-                          alt=""
-                        />
-                      </a>
-
-                      <div className="p-4">
-                        <p className="text-base font-bold text-primary">
-                          <a href="#" title="">
-                            Washer
-                          </a>
-                        </p>
-                        <p className="mt-1 text-sm font-medium text-gray-500">
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit. Erat eget etiam.
-                        </p>
-                      </div>
-
-                      <div className="p-4 border-t border-gray-700">
-                        <div className="flex items-center justify-between space-x-6">
-                          <div className="flex items-center flex-1">
-                            <div className="relative inline-flex items-center justify-center shrink-0 w-7 h-7">
-                              <div className="absolute inset-0">
-                                <img
-                                  className="w-full h-full object-coveer"
-                                  src="https://landingfoliocom.imgix.net/store/collection/niftyui/images/featured-drops-marketplace/6/avatar-background.png"
-                                  alt=""
-                                />
-                              </div>
-                              <div className="relative text-xs font-bold text-slate-600 uppercase">
-                                FA
-                              </div>
-                            </div>
-                            <div className="flex-1 ml-3">
-                              <p className="text-xs font-medium text-gray-500 uppercase">
-                                Owned by
-                              </p>
-                              <p className="mt-0.5 text-sm font-bold text-gray-600">
-                                Jenny Wilson
-                              </p>
-                            </div>
-                          </div>
-
-                          <div>
-                            <a
-                              href="#"
-                              title=""
-                              className="inline-flex items-center justify-center px-3 py-2 text-xs font-bold tracking-widest text-primary uppercase transition-all duration-200 bg-transparent border border-primary rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary hover:border-primary hover:bg-primary hover:text-white"
-                              role="button"
-                            >
-                              Place bid
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+                {queryResults.map((token, index) => <TokenCard key={index} token={token} />)}
               </div>
 
               <div className="mt-4">
@@ -248,8 +167,17 @@ const Explore: React.FC<ExploreProps> = () => {
       <Footer />
     </div>
   );
-}
+};
 
-Explore.defaultProps = {}
+Explore.defaultProps = {};
+
+export async function getServerSideProps() {
+  const queryResults = await elasticQuery(1, 30, [{ height: { order: "desc"} }]);
+  return {
+    props: {
+      queryResults,
+    },
+  };
+}
 
 export default Explore;
