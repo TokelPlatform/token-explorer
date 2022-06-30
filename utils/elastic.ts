@@ -110,3 +110,9 @@ export const update = async (index: string, id: string, body: any) =>
     id,
     body: { doc: body },
   });
+
+export const get = async (index: string, id: string) =>
+  elasticclient.get({
+    index: index,
+    id,
+  });
