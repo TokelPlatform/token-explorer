@@ -7,7 +7,7 @@ import { index } from "config/index";
 import nc from "next-connect";
 import validate from "utils/middlewares/validate";
 
-const schema = Joi.object({
+const querySchema = Joi.object({
   id: Joi.string().length(64).hex().required(),
 });
 
@@ -25,7 +25,7 @@ export default nc({
   },
 })
   .get(
-    validate({ query: schema }),
+    validate({ query: querySchema }),
     async (req: NextApiRequest, res: NextApiResponse) => {
       const id = req.query.id.toString();
       const doc = await get(index.TOKENS, id);
@@ -33,7 +33,7 @@ export default nc({
     }
   )
   .put(
-    validate({ query: schema, body: bodySchema }),
+    validate({ query: querySchema, body: bodySchema }),
     async (req: NextApiRequest, res: NextApiResponse) => {
       const id = req.query.id.toString();
       await update(index.TOKENS, id, req.body);

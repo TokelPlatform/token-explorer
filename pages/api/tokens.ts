@@ -1,64 +1,56 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-import { Sort, elasticQuery } from "../../utils/elastic";
+import parseSearchParams, {
+  NextApiRequestWithExtraParams,
+} from "utils/middlewares/parseSearchParams";
 
 import Joi from "joi";
+import { elasticQuery } from "utils/elastic";
+import nc from "next-connect";
 import validate from "utils/middlewares/validate";
 
-// FOR TESTING
-const wildcardQuery = {
-  "dataAsJson.arbitrary.collection_name": "cyber",
-};
-const sortQuery = [{ height: { order: "asc" } }];
-console.log("stringified: ", JSON.stringify(sortQuery));
-console.log("stringified: ", JSON.stringify(wildcardQuery));
-// FOR TESTING
-
-const ERR = (param: string) =>
-  `Incorrect ${param} parameter format. Please provide a valid JSON stringified object.`;
-
-const checkJSON = (toParse: any, err: string) => {
-  try {
-    console.log("we will parse ", toParse);
-    return !!toParse ? JSON.parse(toParse) : null;
-  } catch (e) {
-    throw new Error(ERR(err));
-  }
-};
-
+//[{ height: { order: "asc" } }];
 const sortSchema = Joi.object({
-  height: Joi.number(),
+  height: {
+    order: Joi.string().valid("asc", "desc"),
+  },
 });
 
-const schema = Joi.object({
-  sort: sortSchema,
+//{"dataAsJson.arbitrary.collection_name":"cyber"}
+const searchSchema = Joi.object()
+  .optional()
+  .pattern(Joi.string(), Joi.string());
+
+const querySchema = Joi.object({
+  sort: Joi.array()
+    .optional()
+    .items(sortSchema)
+    .default([{ height: { order: "desc" } }]),
+  search: searchSchema,
+  page: Joi.number().optional(),
+  limit: Joi.number().optional(),
 });
 
-export default validate(
-  { query: schema },
-  async (req: NextApiRequest, res: NextApiResponse<any>) => {
-    if (req.method === "GET") {
-      try {
-        const sort = checkJSON(req.query.sort, "sort");
-        const search = checkJSON(req.query.search, "search");
-        const page = req.query.page
-          ? parseInt(req.query.page.toString())
-          : undefined;
-        const perPage = req.query.limit
-          ? parseInt(req.query.limit.toString())
-          : undefined;
-
-        console.log(req.query);
-        console.log("sort ", sort);
-        console.log("filter ", search);
-
-        const result = await elasticQuery(page, perPage, sort, search);
-        return res.status(200).json(result);
-      } catch (e) {
-        console.log(e);
-        return res.status(400).json(e);
-      }
+export default nc({
+  onError: (err: any, req: NextApiRequest, res: NextApiResponse, next: any) => {
+    console.error(err.stack);
+    res.status(500).end();
+  },
+  onNoMatch: (_, res: NextApiResponse) => {
+    res.status(404).end();
+  },
+})
+  .use(parseSearchParams)
+  .get(
+    validate({ query: querySchema }),
+    async (req: NextApiRequestWithExtraParams, res: NextApiResponse) => {
+      console.log(req.query);
+      const result = await elasticQuery(
+        req.query.page,
+        req.query.limit,
+        req.query.sort,
+        req.query.search
+      );
+      return res.status(200).json(result);
     }
-    return res.status(404);
-  }
-);
+  );
