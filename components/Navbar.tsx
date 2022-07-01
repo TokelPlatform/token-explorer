@@ -53,7 +53,7 @@ const Navbar: React.FC<NavbarProps> = () => {
             <Link href="/explore">
               <a
                 title="Explore Tokel"
-                className="text-base font-medium text-gray-100 transition-all duration-200 rounded focus:outline-none font-pj hover:text-opacity-50 focus:ring-1 focus:ring-gray-900 focus:ring-offset-2"
+                className="text-base font-medium text-gray-100 transition-all duration-200 rounded focus:outline-none font-pj hover:text-opacity-50 focus:ring-1 focus:ring-white focus:ring-offset-2"
               >
                 Explore
               </a>
@@ -62,7 +62,7 @@ const Navbar: React.FC<NavbarProps> = () => {
             <a
               href="#"
               title=""
-              className="text-base font-medium text-gray-100 transition-all duration-200 rounded focus:outline-none font-pj hover:text-opacity-50 focus:ring-1 focus:ring-gray-900 focus:ring-offset-2"
+              className="text-base font-medium text-gray-100 transition-all duration-200 rounded focus:outline-none font-pj hover:text-opacity-50 focus:ring-1 focus:ring-white focus:ring-offset-2"
             >
               Create
             </a>
@@ -104,37 +104,17 @@ const Navbar: React.FC<NavbarProps> = () => {
                 <a
                   href="#"
                   title=""
-                  className="flex items-center p-3 -m-3 text-base font-medium text-gray-900 transition-all duration-200 rounded-xl hover:bg-gray-50 focus:outline-none font-pj focus:ring-1 focus:ring-gray-900 focus:ring-offset-2"
+                  className="flex items-center p-3 -m-3 text-base font-medium text-white transition-all duration-200 rounded-xl hover:bg-gray-50 focus:outline-none font-pj focus:ring-1 focus:ring-white focus:ring-offset-2"
                 >
-                  {" "}
-                  Experts{" "}
+                  Explore
                 </a>
 
                 <a
                   href="#"
                   title=""
-                  className="flex items-center p-3 -m-3 text-base font-medium text-gray-900 transition-all duration-200 rounded-xl hover:bg-gray-50 focus:outline-none font-pj focus:ring-1 focus:ring-gray-900 focus:ring-offset-2"
+                  className="flex items-center p-3 -m-3 text-base font-medium text-white transition-all duration-200 rounded-xl hover:bg-gray-50 focus:outline-none font-pj focus:ring-1 focus:ring-white focus:ring-offset-2"
                 >
-                  {" "}
-                  Community Groups{" "}
-                </a>
-
-                <a
-                  href="#"
-                  title=""
-                  className="flex items-center p-3 -m-3 text-base font-medium text-gray-900 transition-all duration-200 rounded-xl hover:bg-gray-50 focus:outline-none font-pj focus:ring-1 focus:ring-gray-900 focus:ring-offset-2"
-                >
-                  {" "}
-                  Support{" "}
-                </a>
-
-                <a
-                  href="#"
-                  title=""
-                  className="flex items-center p-3 -m-3 text-base font-medium text-gray-900 transition-all duration-200 rounded-xl hover:bg-gray-50 focus:outline-none font-pj focus:ring-1 focus:ring-gray-900 focus:ring-offset-2"
-                >
-                  {" "}
-                  Login{" "}
+                  Create
                 </a>
 
                 <a
@@ -149,20 +129,20 @@ const Navbar: React.FC<NavbarProps> = () => {
                             text-base
                             font-semibold
                             leading-7
-                            text-gray-900
+                            text-white
                             transition-all
                             duration-200
                             bg-transparent
-                            border border-gray-900
+                            border border-white
                             rounded-xl
                             font-pj
-                            focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900
-                            hover:bg-gray-900 hover:text-white
-                            focus:bg-gray-900 focus:text-white
+                            focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white
+                            hover:bg-white hover:text-white
+                            focus:bg-white focus:text-white
                         "
                   role="button"
                 >
-                  Join community
+                  Join Discord Community
                 </a>
               </div>
             </div>

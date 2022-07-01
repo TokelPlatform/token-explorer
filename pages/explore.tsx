@@ -1,3 +1,4 @@
+import { ChevronDownIcon } from "@heroicons/react/solid";
 import { DEFAULT_PER_PAGE } from "utils/defines";
 import Footer from "../components/Footer";
 import { GetServerSidePropsContext } from "next";
@@ -59,20 +60,7 @@ const Explore: React.FC<ExploreProps> = ({ queryResults, queryTotalCount, page }
                 className="items-center justify-center hidden px-4 py-2 text-sm font-bold text-slate-100 transition-all duration-200 border border-gray-300 rounded-md md:inline-flex hover:bg-gray-50 hover:text-white focus:outline-none"
               >
                 Sort Items
-                <svg
-                  className="w-4 h-4 ml-2 -mr-1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
+                <ChevronDownIcon className="w-4 h-4 ml-2 -mr-1" />
               </button>
 
               <button
@@ -80,20 +68,7 @@ const Explore: React.FC<ExploreProps> = ({ queryResults, queryTotalCount, page }
                 className="inline-flex items-center justify-center w-full px-4 py-3 mt-6 text-sm font-bold text-slate-100 transition-all duration-200 border border-gray-300 rounded-md md:hidden hover:bg-gray-50 hover:text-white focus:outline-none"
               >
                 All Filters
-                <svg
-                  className="w-4 h-4 ml-2 -mr-1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
+                <ChevronDownIcon className="w-4 h-4 ml-2 -mr-1" />
               </button>
             </div>
           </div>
