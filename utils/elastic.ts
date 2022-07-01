@@ -37,6 +37,11 @@ type ElasticQuery = {
         };
       };
     };
+    range?: {
+      [key: string]: {
+        [match: string]: number;
+      }
+    }
   };
 };
 
@@ -80,7 +85,7 @@ export const elasticQuery = async (
   if (filterBy) {
     filterBy.forEach((value) => {
       const key: string = Object.keys(value)[0].toString();
-      let words = value[key].split(" ");
+      let words = typeof value[key] === "string" ? value[key].split(" ") : "";
       q.query = q.query ? q.query : {};
       if (words.length > 1) {
         q.query.match_phrase_prefix = {
@@ -89,8 +94,12 @@ export const elasticQuery = async (
           },
         };
       } else {
-        const match = ["tokenid", "id", "owner", "height"];
-        if (match.indexOf(key) !== -1) {
+        const match = ["tokenid", "id", "owner"];
+        const numericMatches = ["height", "supply"];
+        if (numericMatches.includes(key)) {
+          q.query.range = q.query.range ? q.query.range : {};
+          q.query.range[key] = value[key] as any;
+        } else if (match.indexOf(key) !== -1) {
           q.query.bool = matchQuery(key, value[key]);
         } else {
           q.query.wildcard = {};

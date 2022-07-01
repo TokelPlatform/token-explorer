@@ -3,7 +3,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
 import Link from "next/link";
 import React from "react";
 import classNames from "classnames";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
 
 interface PaginationProps {
   currentPage: number;
@@ -91,6 +91,7 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages }) => {
 
                 return (
                   <Page
+                    key={index}
                     page={indexPage}
                     isCurrent={currentPage === indexPage}
                   />

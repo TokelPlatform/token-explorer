@@ -1,5 +1,6 @@
-import { ChevronDownIcon } from "@heroicons/react/solid";
-import { DEFAULT_PER_PAGE } from "utils/defines";
+import { ChevronDownIcon, XIcon } from "@heroicons/react/solid";
+import { DEFAULT_PER_PAGE, FILTERS, HIGHLIGHTED_COLLECTIONS } from "utils/defines";
+
 import Footer from "../components/Footer";
 import { GetServerSidePropsContext } from "next";
 import Navbar from "../components/Navbar";
@@ -8,6 +9,7 @@ import React from "react";
 import Token from "../types/Token";
 import TokenCard from "../components/TokenCard";
 import { elasticQuery } from "../utils/elastic";
+import { useRouter } from "next/router";
 
 interface ExploreProps {
   queryResults: Array<Token>;
@@ -15,27 +17,50 @@ interface ExploreProps {
   page: number;
 }
 
-const FilterCheckbox = ({ label }: { label: string }) => (
-  <div className="flex items-start">
-    <div className="flex items-center h-5">
-      <input
-        type="checkbox"
-        name=""
-        id=""
-        className="w-5 h-5 text-white border-gray-300 rounded-sm focus:ring-gray-900"
-        defaultChecked={false}
-      />
-    </div>
-    <div className="ml-3 text-sm">
-      <label htmlFor="" className="text-sm font-medium text-gray-200">
-        {label}
-      </label>
-    </div>
-  </div>
-);
 
 const Explore: React.FC<ExploreProps> = ({ queryResults, queryTotalCount, page }) => {
+
+  const router = useRouter();
+  const activeParameters = router.query;
+
+  const filterLink = (filter: Record<string, any>) => ({
+    pathname: router.pathname,
+    query: { ...router.query, ...filter },
+  });
+
+  const handleFilterChange = ({ key, value }: { key: string, value?: string }) =>
+    router.push(filterLink({ [key]: value }));
+
   const totalPages = Math.ceil(queryTotalCount / DEFAULT_PER_PAGE);
+
+  const FilterCheckbox = ({
+    label,
+    filterKey,
+    value,
+  }: {
+    label: string;
+    filterKey: string;
+    value: string;
+  }) => (
+    <div className="flex items-start">
+      <div className="flex items-center h-5">
+        <input
+          type="checkbox"
+          className="w-5 h-5 text-white border-gray-300 rounded-sm focus:ring-gray-900"
+          checked={activeParameters[filterKey] === value}
+          onChange={() =>
+            handleFilterChange({
+              key: "type",
+              value: activeParameters[filterKey] === value ? undefined : value,
+            })
+          }
+        />
+      </div>
+      <div className="ml-3 text-sm">
+        <label className="text-sm font-medium text-gray-200">{label}</label>
+      </div>
+    </div>
+  );
 
   return (
     <div>
@@ -79,20 +104,7 @@ const Explore: React.FC<ExploreProps> = ({ queryResults, queryTotalCount, page }
                 type="button"
                 className="opacity-0 inline-flex items-center p-1 -m-1 text-base font-bold text-white transition-all duration-200 focus:outline-none group"
               >
-                <svg
-                  className="w-5 h-5 mr-2 text-white group-hover:text-slate-100"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
+                <XIcon className="w-5 h-5 mr-2 text-white group-hover:text-slate-100" />
                 Reset All Filters
               </button>
 
@@ -109,9 +121,13 @@ const Explore: React.FC<ExploreProps> = ({ queryResults, queryTotalCount, page }
                     </button>
 
                     <div className="space-y-6">
-                      <FilterCheckbox label="NFTs" />
+                      <FilterCheckbox
+                        label="NFTs"
+                        filterKey="type"
+                        value={FILTERS.TYPE.NFT}
+                      />
 
-                      <FilterCheckbox label="Fungible Tokens" />
+                      <FilterCheckbox label="Fungible Tokens" filterKey="type" value={FILTERS.TYPE.FUNGIBLE_TOKEN} />
                     </div>
                   </div>
 
@@ -124,11 +140,9 @@ const Explore: React.FC<ExploreProps> = ({ queryResults, queryTotalCount, page }
                     </button>
 
                     <div className="space-y-6">
-                      <FilterCheckbox label="Crabbekyn Skulls" />
-                      <FilterCheckbox label="Cyber Komodos" />
-                      <FilterCheckbox label="Criptty" />
-                      <FilterCheckbox label="Eye of the Komodo" />
-                      <FilterCheckbox label="UFO" />
+                      {HIGHLIGHTED_COLLECTIONS.map((collection) => (
+                        <FilterCheckbox key={collection.filterId} label={collection.name} filterKey="collection" value={collection.filterId} />
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -157,14 +171,23 @@ const Explore: React.FC<ExploreProps> = ({ queryResults, queryTotalCount, page }
 Explore.defaultProps = {};
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const page = parseInt(context.query.page as unknown as string) || 1;
-  const query = await elasticQuery(page, DEFAULT_PER_PAGE, [
+
+  let { page, type } = context.query
+
+  const pageInt = parseInt(page as unknown as string) || 1;
+
+  const filters: any = [];
+
+  if (type === FILTERS.TYPE.NFT) filters.push({ supply: { lte: 1 } });
+  if (type === FILTERS.TYPE.FUNGIBLE_TOKEN) filters.push({ supply: { gt: 1 } });
+
+  const query = await elasticQuery(pageInt, DEFAULT_PER_PAGE, [
     { height: { order: "desc" } },
-  ]);
+  ], filters);
   
   return {
     props: {
-      page,
+      page: pageInt,
       queryResults: query.hits.hits.map((hit: any) => hit._source),
       queryTotalCount: query.hits.total.value,
     },
