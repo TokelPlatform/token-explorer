@@ -127,7 +127,11 @@ const Explore: React.FC<ExploreProps> = ({ queryResults, queryTotalCount, page }
                         value={FILTERS.TYPE.NFT}
                       />
 
-                      <FilterCheckbox label="Fungible Tokens" filterKey="type" value={FILTERS.TYPE.FUNGIBLE_TOKEN} />
+                      <FilterCheckbox
+                        label="Fungible Tokens"
+                        filterKey="type"
+                        value={FILTERS.TYPE.FUNGIBLE_TOKEN}
+                      />
                     </div>
                   </div>
 
@@ -141,7 +145,12 @@ const Explore: React.FC<ExploreProps> = ({ queryResults, queryTotalCount, page }
 
                     <div className="space-y-6">
                       {HIGHLIGHTED_COLLECTIONS.map((collection) => (
-                        <FilterCheckbox key={collection.filterId} label={collection.name} filterKey="collection" value={collection.filterId} />
+                        <FilterCheckbox
+                          key={collection.filterId}
+                          label={collection.name}
+                          filterKey="collection"
+                          value={collection.filterId}
+                        />
                       ))}
                     </div>
                   </div>
@@ -157,7 +166,11 @@ const Explore: React.FC<ExploreProps> = ({ queryResults, queryTotalCount, page }
               </div>
 
               <div className="mt-4">
-                <Pagination currentPage={page} totalPages={totalPages} />
+                <Pagination
+                  currentPage={page}
+                  totalPages={totalPages}
+                  totalItems={queryTotalCount}
+                />
               </div>
             </div>
           </div>

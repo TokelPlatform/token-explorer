@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
+  totalItems?: number;
 }
 
 
@@ -17,10 +18,11 @@ interface PageProps {
   disabled?: boolean;
 }
 
-const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages }) => {
+const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, totalItems }) => {
 
   const router = useRouter();
 
+  const perPage = !!totalItems && Math.ceil(totalItems / totalPages);
   const previousPage = Math.max(currentPage - 1, 1);
   const nextPage = Math.min(currentPage + 1, totalPages);
 
@@ -64,14 +66,22 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages }) => {
         </a>
       </div>
       <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-        <div>
-          <p className="text-sm text-slate-100">
-            Showing <span className="font-medium">1</span> to{" "}
-            <span className="font-medium">10</span> of{" "}
-            <span className="font-medium">97</span> results
-          </p>
-        </div>
-        <div>
+        {!!perPage && totalItems > 0 && (
+          <div>
+            <p className="text-sm text-slate-100">
+              Showing{" "}
+              <span className="font-medium">
+                {1 + currentPage * perPage - perPage}
+              </span>{" "}
+              to{" "}
+              <span className="font-medium">
+                {currentPage * perPage > totalItems ? totalItems : currentPage * perPage}
+              </span>{" "}
+              of <span className="font-medium">{totalItems}</span> results
+            </p>
+          </div>
+        )}
+        <div className="ml-auto">
           <nav
             className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px"
             aria-label="Pagination"
