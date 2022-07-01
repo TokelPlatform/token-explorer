@@ -17,6 +17,7 @@ type ElasticQuery = {
   from: number;
   size: number;
   sort?: any;
+  filter_path?: any;
   query?: {
     match_phrase_prefix?: {
       [key: string]: {
@@ -99,9 +100,15 @@ export const elasticQuery = async (
     });
   }
 
+  // Optimize only for what we need (source blockchain objects and totals)
+  q.filter_path = "hits.hits._source,hits.total.value";
+
   console.log("query: ", q.query);
   console.log("wildcard: ", q.query?.wildcard);
-  return elasticclient.helpers.search(q);
+
+  const results = elasticclient.search(q);
+  
+  return results;
 };
 
 export const update = async (index: string, id: string, body: any) =>

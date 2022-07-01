@@ -1,4 +1,6 @@
+import { DEFAULT_PER_PAGE } from "utils/defines";
 import Footer from "../components/Footer";
+import { GetServerSidePropsContext } from "next";
 import Navbar from "../components/Navbar";
 import Pagination from "../components/Pagination";
 import React from "react";
@@ -8,6 +10,8 @@ import { elasticQuery } from "../utils/elastic";
 
 interface ExploreProps {
   queryResults: Array<Token>;
+  queryTotalCount: number;
+  page: number;
 }
 
 const FilterCheckbox = ({ label }: { label: string }) => (
@@ -18,7 +22,7 @@ const FilterCheckbox = ({ label }: { label: string }) => (
         name=""
         id=""
         className="w-5 h-5 text-white border-gray-300 rounded-sm focus:ring-gray-900"
-        defaultChecked
+        defaultChecked={false}
       />
     </div>
     <div className="ml-3 text-sm">
@@ -29,8 +33,8 @@ const FilterCheckbox = ({ label }: { label: string }) => (
   </div>
 );
 
-const Explore: React.FC<ExploreProps> = ({ queryResults }) => {
-  console.log(queryResults, "queryResults");
+const Explore: React.FC<ExploreProps> = ({ queryResults, queryTotalCount, page }) => {
+  const totalPages = Math.ceil(queryTotalCount / DEFAULT_PER_PAGE);
 
   return (
     <div>
@@ -98,7 +102,7 @@ const Explore: React.FC<ExploreProps> = ({ queryResults }) => {
             <div className="hidden space-y-8 lg:block">
               <button
                 type="button"
-                className="inline-flex items-center p-1 -m-1 text-base font-bold text-white transition-all duration-200 focus:outline-none group"
+                className="opacity-0 inline-flex items-center p-1 -m-1 text-base font-bold text-white transition-all duration-200 focus:outline-none group"
               >
                 <svg
                   className="w-5 h-5 mr-2 text-white group-hover:text-slate-100"
@@ -145,7 +149,11 @@ const Explore: React.FC<ExploreProps> = ({ queryResults }) => {
                     </button>
 
                     <div className="space-y-6">
-                      <FilterCheckbox label="Skulls" />
+                      <FilterCheckbox label="Crabbekyn Skulls" />
+                      <FilterCheckbox label="Cyber Komodos" />
+                      <FilterCheckbox label="Criptty" />
+                      <FilterCheckbox label="Eye of the Komodo" />
+                      <FilterCheckbox label="UFO" />
                     </div>
                   </div>
                 </div>
@@ -154,11 +162,13 @@ const Explore: React.FC<ExploreProps> = ({ queryResults }) => {
 
             <div className="lg:col-span-3">
               <div className="grid grid-cols-1 gap-6 px-6 mt-12 sm:mt-16 sm:px-0 sm:grid-cols-2 xl:grid-cols-3">
-                {queryResults.map((token, index) => <TokenCard key={index} token={token} />)}
+                {queryResults.map((token, index) => (
+                  <TokenCard key={index} token={token} />
+                ))}
               </div>
 
               <div className="mt-4">
-                <Pagination currentPage={2} totalPages={50} />
+                <Pagination currentPage={page} totalPages={totalPages} />
               </div>
             </div>
           </div>
@@ -171,11 +181,17 @@ const Explore: React.FC<ExploreProps> = ({ queryResults }) => {
 
 Explore.defaultProps = {};
 
-export async function getServerSideProps() {
-  const queryResults = await elasticQuery(1, 30, [{ height: { order: "desc"} }]);
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const page = parseInt(context.query.page as unknown as string) || 1;
+  const query = await elasticQuery(page, DEFAULT_PER_PAGE, [
+    { height: { order: "desc" } },
+  ]);
+  
   return {
     props: {
-      queryResults,
+      page,
+      queryResults: query.hits.hits.map((hit: any) => hit._source),
+      queryTotalCount: query.hits.total.value,
     },
   };
 }

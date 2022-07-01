@@ -92,7 +92,7 @@ const Navbar: React.FC<NavbarProps> = () => {
                     "
               role="button"
             >
-              Connect Wallet
+              Open dApp
             </a>
           </nav>
         </div>
