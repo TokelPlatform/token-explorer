@@ -21,6 +21,7 @@ const TokenCard: React.FC<TokenCardProps> = ({ token }) => {
     : token.dataAsJson?.url;
 
   const trimmedAuthorPublicKey = `${token.owner.substring(0, 4)}...${token.owner.substring(token.owner.length - 4)}`;
+  const trimmedDescription = !!token.description && token.description.length > 250 ? `${token.description?.substring(0, 250)}...` : token.description;
   const authorIdenticon = new Identicon(token.owner, 50).toString();
 
   return (
@@ -51,6 +52,9 @@ const TokenCard: React.FC<TokenCardProps> = ({ token }) => {
           >
             <img
               className="object-cover w-full h-full"
+              loading="lazy"
+              // @ts-ignore
+              onError={(e) => e.target.removeAttribute("src")}
               src={transformedUrl}
               alt={token.name}
             />
@@ -65,7 +69,7 @@ const TokenCard: React.FC<TokenCardProps> = ({ token }) => {
           </Link>
         </p>
         <p className="mt-1 text-sm font-medium text-gray-500">
-          {token.description}
+          {trimmedDescription}
         </p>
       </div>
 
