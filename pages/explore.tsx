@@ -1,6 +1,6 @@
 import { ChevronDownIcon, ChevronUpIcon, XIcon } from "@heroicons/react/solid";
 import { DEFAULT_PER_PAGE, FILTERS, HIGHLIGHTED_COLLECTIONS } from "utils/defines";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 
 import Footer from "../components/Footer";
 import { GetServerSidePropsContext } from "next";
@@ -25,13 +25,17 @@ const Explore: React.FC<ExploreProps> = ({ queryResults, queryTotalCount, page }
   const [filtersOpen, setFiltersOpen] = useState(false);
   const activeParameters = router.query;
 
+  const hasActiveParameters = useMemo(() => Object.keys(activeParameters).filter(item => item !== "page").length > 0, [activeParameters]);
+
   const filterLink = (filter: Record<string, any>) => ({
     pathname: router.pathname,
     query: { ...router.query, ...filter },
   });
 
   const handleFilterChange = ({ key, value }: { key: string, value?: string }) =>
-    router.push(filterLink({ [key]: value }));
+    router.replace(filterLink({ [key]: value }));
+
+  const handleClearFilters = () => router.replace({ pathname: router.pathname, query: {} });
 
   const totalPages = Math.ceil(queryTotalCount / DEFAULT_PER_PAGE);
 
@@ -105,7 +109,11 @@ const Explore: React.FC<ExploreProps> = ({ queryResults, queryTotalCount, page }
             >
               <button
                 type="button"
-                className="inline-flex items-center p-1 -m-1 text-base font-bold text-white transition-all duration-200 focus:outline-none group"
+                onClick={handleClearFilters}
+                className={classNames(
+                  "inline-flex items-center p-1 -m-1 text-base font-bold text-white transition-all duration-200 focus:outline-none group",
+                  { "opacity-0": !hasActiveParameters }
+                )}
               >
                 <XIcon className="w-5 h-5 mr-2 text-white group-hover:text-slate-100" />
                 Reset All Filters
