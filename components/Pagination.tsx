@@ -50,7 +50,7 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, totalI
   if (totalPages === 0) return null;
 
   return (
-    <div className="py-3 flex items-center justify-betweensm:px-6">
+    <div className="flex items-center justify-betweensm:px-6">
       <div className="flex-1 flex justify-between sm:hidden">
         <a
           href="#"

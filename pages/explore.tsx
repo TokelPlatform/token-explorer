@@ -204,13 +204,20 @@ const Explore: React.FC<ExploreProps> = ({ queryResults, queryTotalCount, page }
             </div>
 
             <div className="lg:col-span-3">
-              <div className="grid grid-cols-1 gap-6 px-6 mt-12 sm:mt-16 sm:px-0 sm:grid-cols-2 xl:grid-cols-3">
+              <div>
+                <Pagination
+                  currentPage={page}
+                  totalPages={totalPages}
+                />
+              </div>
+              
+              <div className="grid grid-cols-1 gap-6 px-6 mt-6 sm:px-0 sm:grid-cols-2 xl:grid-cols-3">
                 {queryResults.map((token, index) => (
                   <TokenCard key={index} token={token} />
                 ))}
               </div>
 
-              <div className="mt-4">
+              <div className="mt-6">
                 <Pagination
                   currentPage={page}
                   totalPages={totalPages}
