@@ -12,14 +12,12 @@ export const tokenUpdateSchema = Joi.object({
   featured: Joi.boolean().optional(),
 });
 
-//[{ height: { order: "asc" } }];
 const sortSchema = Joi.object({
   height: {
     order: Joi.string().valid("asc", "desc"),
   },
 });
 
-//{"dataAsJson.arbitrary.collection_name":"cyber"}
 const searchSchema = Joi.object()
   .optional()
   .pattern(Joi.string(), Joi.string());
@@ -31,12 +29,6 @@ export const searchQuerySchema = Joi.object({
   limit: Joi.number().optional(),
 });
 
-//*** Types  */
-
-type TokenType = {
-  featured: boolean;
-};
-
 const validate = (schema: Joi.ObjectSchema<any>, object: any) => {
   const valid = schema.validate(object);
   if (valid.error) {
@@ -45,6 +37,18 @@ const validate = (schema: Joi.ObjectSchema<any>, object: any) => {
   }
 };
 
+type TokenType = {
+  featured: boolean;
+};
+
+/**
+ *
+ * @param page   number     .... 1
+ * @param limit  number     .... 10
+ * @param sort   sortType   .... { height: { order: "asc" } }
+ * @param search searchType .... {"dataAsJson.arbitrary.collection_name":"cyber"}
+ * @returns
+ */
 export const getTokens = async (
   page: number,
   limit: number,
