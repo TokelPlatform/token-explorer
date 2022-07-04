@@ -49,9 +49,7 @@ export const getTokens = async (
   sort: KeyValueType,
   search: KeyValueType
 ) => {
-  const r = validate(searchQuerySchema, { page, limit, sort, search });
-  console.log("validated");
-  console.log(r);
+  validate(searchQuerySchema, { page, limit, sort, search });
   return elasticQuery(page, limit, sort, search);
 };
 

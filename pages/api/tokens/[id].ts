@@ -24,7 +24,7 @@ export default nc({
     async (req: NextApiRequest, res: NextApiResponse) => {
       try {
         const doc = await getToken(req.query.id.toString());
-        return res.status(200).json({ doc: doc?._source });
+        return res.status(200).json(doc);
       } catch (e) {
         return res.status(400).json(e);
       }
