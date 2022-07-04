@@ -39,8 +39,8 @@ type TokenType = {
  *
  * @param page   number     .... 1
  * @param limit  number     .... 10
- * @param sort   sortType   .... { height: { order: "asc" } }
- * @param search searchType .... {"dataAsJson.arbitrary.collection_name":"cyber"}
+ * @param sort   sortType   .... {"height": "desc", "age": "asc"}
+ * @param search searchType .... {"dataAsJson.arbitrary.collection_name":"cyber", "owner": 34123123}
  * @returns
  */
 export const getTokens = async (
