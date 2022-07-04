@@ -1,4 +1,4 @@
-import { Sort, Wildcard, elasticQuery, get, update } from "./elastic";
+import { KeyValueType, elasticQuery, get, update } from "./elastic";
 
 import Joi from "joi";
 import { index } from "config";
@@ -12,19 +12,13 @@ export const tokenUpdateSchema = Joi.object({
   featured: Joi.boolean().optional(),
 });
 
-const sortSchema = Joi.object({
-  height: {
-    order: Joi.string().valid("asc", "desc"),
-  },
-});
-
-const searchSchema = Joi.object()
+const KeyValueSchema = Joi.object()
   .optional()
   .pattern(Joi.string(), Joi.string());
 
 export const searchQuerySchema = Joi.object({
-  sort: sortSchema.optional().default({ height: { order: "desc" } }),
-  search: searchSchema,
+  sort: KeyValueSchema,
+  search: KeyValueSchema,
   page: Joi.number().optional(),
   limit: Joi.number().optional(),
 });
@@ -52,8 +46,8 @@ type TokenType = {
 export const getTokens = async (
   page: number,
   limit: number,
-  sort: Sort,
-  search: Wildcard
+  sort: KeyValueType,
+  search: KeyValueType
 ) => {
   const r = validate(searchQuerySchema, { page, limit, sort, search });
   console.log("validated");

@@ -1,107 +1,54 @@
 import { conf, elasticclient } from "../config/elastic";
 
+import esb from "elastic-builder";
 import { index } from "../config";
 
-type Order = {
-  order: string;
+export type KeyValueType = {
+  [field: string]: string;
 };
 
-export type Sort = { [sortBy: string]: Order };
-
-export type Wildcard = {
-  [path: string]: string;
-};
-
-type ElasticQuery = {
-  index: string | undefined;
-  from: number;
-  size: number;
-  sort?: any;
-  query?: {
-    match_phrase_prefix?: {
-      [key: string]: {
-        query: string;
-      };
-    };
-    wildcard?: {
-      [key: string]: {
-        value: string;
-        case_insensitive: boolean;
-      };
-    };
-    bool?: {
-      must: {
-        match: {
-          [x: string]: string;
-        };
-      };
-    };
-  };
-};
-
-const wildcardQuery = (key: string, value: string) => ({
-  value: `*${value}*`,
-  case_insensitive: true,
-});
-
-const matchQuery = (key: string, value: string) => ({
-  must: {
-    match: {
-      [key]: value,
-    },
-  },
-});
+const getItemsPerPage = (perPage: number): number =>
+  !!perPage && perPage > conf.maxPerPage
+    ? conf.maxPerPage
+    : !!perPage
+    ? perPage
+    : 10;
 
 export const elasticQuery = async (
   page?: number,
-  perPage: number = conf.maxPerPage,
-  sort?: Sort,
-  filterBy?: Wildcard
+  limit: number = conf.maxPerPage,
+  sort?: KeyValueType,
+  search?: KeyValueType
 ) => {
-  const itemsPerPage =
-    !!perPage && perPage > conf.maxPerPage
-      ? conf.maxPerPage
-      : !!perPage
-      ? perPage
-      : 10;
-  console.log("limit: ", itemsPerPage);
-  console.log("page: ", page);
-  let q: ElasticQuery = {
-    index: index.TOKENS,
-    from: !!page ? (page - 1) * itemsPerPage : 0,
-    size: itemsPerPage,
-  };
+  let requestBody = esb.requestBodySearch();
 
-  if (sort) {
-    q.sort = sort;
+  requestBody.from(!!page ? (page - 1) * limit : 0);
+  requestBody.size(getItemsPerPage(limit));
+
+  let sorts = [];
+  for (const field in sort) {
+    sorts.push(esb.sort(field, sort[field]));
   }
+  requestBody.sorts(sorts);
 
-  if (filterBy) {
-    for (const key in filterBy) {
-      const value = filterBy[key];
-      let words = value.split(" ");
-      q.query = q.query ? q.query : {};
-      if (words.length > 1) {
-        q.query.match_phrase_prefix = {
-          [key]: {
-            query: value,
-          },
-        };
-      } else {
-        const match = ["tokenid", "id", "owner", "height"];
-        if (match.indexOf(key) !== -1) {
-          q.query.bool = matchQuery(key, value);
-        } else {
-          q.query.wildcard = {};
-          q.query.wildcard[key] = wildcardQuery(key, value);
-        }
+  if (search) {
+    if (Object.keys(search).length > 1) {
+      const matchQueries = [];
+      for (const field in search) {
+        matchQueries.push(esb.matchQuery(field, search[field]));
       }
+      requestBody.query(esb.boolQuery().filter(matchQueries));
+    } else {
+      const term = Object.keys(search)[0];
+      const value = search[term];
+      requestBody.query(esb.matchQuery(term, value));
     }
   }
-
-  console.log("query: ", q.query);
-  console.log("wildcard: ", q.query?.wildcard);
-  return elasticclient.helpers.search(q);
+  console.log(requestBody.toJSON());
+  return elasticclient.search({
+    index: index.TOKENS,
+    ...requestBody.toJSON(),
+  });
 };
 
 export const update = async (index: string, id: string, body: any) =>
