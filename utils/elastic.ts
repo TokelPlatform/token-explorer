@@ -55,8 +55,8 @@ const matchQuery = (key: string, value: string) => ({
 export const elasticQuery = async (
   page?: number,
   perPage: number = conf.maxPerPage,
-  sort?: Sort[],
-  filterBy?: Wildcard[]
+  sort?: Sort,
+  filterBy?: Wildcard
 ) => {
   const itemsPerPage =
     !!perPage && perPage > conf.maxPerPage
@@ -77,26 +77,26 @@ export const elasticQuery = async (
   }
 
   if (filterBy) {
-    filterBy.forEach((value) => {
-      const key: string = Object.keys(value)[0].toString();
-      let words = value[key].split(" ");
+    for (const key in filterBy) {
+      const value = filterBy[key];
+      let words = value.split(" ");
       q.query = q.query ? q.query : {};
       if (words.length > 1) {
         q.query.match_phrase_prefix = {
           [key]: {
-            query: value[key],
+            query: value,
           },
         };
       } else {
         const match = ["tokenid", "id", "owner", "height"];
         if (match.indexOf(key) !== -1) {
-          q.query.bool = matchQuery(key, value[key]);
+          q.query.bool = matchQuery(key, value);
         } else {
           q.query.wildcard = {};
-          q.query.wildcard[key] = wildcardQuery(key, value[key]);
+          q.query.wildcard[key] = wildcardQuery(key, value);
         }
       }
-    });
+    }
   }
 
   console.log("query: ", q.query);
