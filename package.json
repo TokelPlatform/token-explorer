@@ -15,6 +15,7 @@
     "@types/identicon.js": "^2.3.1",
     "classnames": "^2.3.1",
     "identicon.js": "^2.3.3",
+    "elastic-builder": "^2.16.0",
     "joi": "^17.6.0",
     "komodo-rpc-js": "^0.0.4",
     "next": "12.1.6",
