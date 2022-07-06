@@ -250,7 +250,7 @@ const Explore: React.FC<ExploreProps> = ({
 Explore.defaultProps = {};
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  let { page, type, sort } = context.query;
+  let { page, type, sort, search } = context.query;
 
   const pageInt = parseInt(page as unknown as string) || 1;
 
@@ -259,6 +259,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   if (type === FILTERS.TYPE.NFT) filters.supply = { lte: 1 };
   if (type === FILTERS.TYPE.FUNGIBLE_TOKEN) filters.supply = { gt: 1 };
+  if (search && search.length > 0) filters.search = search;
 
   if (!!sort && typeof sort === "string" && sort.includes(":")) {
     const sortParams = sort.split(":");

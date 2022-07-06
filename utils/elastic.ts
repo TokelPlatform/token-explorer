@@ -10,7 +10,7 @@ export type KeyValueType = {
 const createQueryItem = (
   term: string,
   query: any
-): esb.MatchQuery | esb.RangeQuery => {
+): esb.MatchQuery | esb.RangeQuery | esb.MultiMatchQuery => {
   const numericMatches = ["height", "supply"];
 
   if (numericMatches.includes(term)) {
@@ -18,6 +18,11 @@ const createQueryItem = (
     return esb
       .rangeQuery(term)
       [Object.keys(query)[0]](query[Object.keys(query)[0]]);
+  } else if (term === "search") {
+    return esb.multiMatchQuery(
+      ["name", "description", "owner", "dataAsJson.arbitrary.collection_name"],
+      query
+    );
   }
 
   return esb.matchQuery(term, query);
