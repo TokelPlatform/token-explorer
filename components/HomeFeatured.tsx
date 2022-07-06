@@ -1,14 +1,18 @@
-import {ArrowLeftIcon, ArrowRightIcon} from "@heroicons/react/solid";
+import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/solid";
 
+import { DEFAULT_IPFS_FALLBACK_GATEWAY } from "utils/defines";
 import Link from "next/link";
 import React from "react";
-
-const featured = [{}, {}, {}, {}];
+import Token from "types/Token";
+import classNames from "classnames";
+import { extractIPFSHash } from "utils/helpers";
 
 interface HomeFeaturedProps {
+  featured?: Array<Token>;
 }
 
-const HomeFeatured: React.FC<HomeFeaturedProps> = () => {
+const HomeFeatured: React.FC<HomeFeaturedProps> = ({ featured }) => {
+  if (!featured) return null;
 
   return (
     <section className="py-12 bg-white sm:py-16 lg:py-20">
@@ -17,96 +21,101 @@ const HomeFeatured: React.FC<HomeFeaturedProps> = () => {
           <h2 className="flex-1 text-2xl font-bold text-gray-900">
             Featured NFTs & Tokens
           </h2>
-
-          <div className="hidden lg:items-center lg:justify-end lg:space-x-3 lg:flex">
-            <button
-              type="button"
-              className="p-1.5 -m-1.5 text-gray-300 transition-all duration-200 rounded-full hover:text-gray-600 hover:bg-gray-100"
-            >
-              <ArrowLeftIcon className="w-6 h-6" />
-            </button>
-
-            <button
-              type="button"
-              className="p-1.5 -m-1.5 text-gray-300 transition-all duration-200 rounded-full hover:text-gray-600 hover:bg-gray-100"
-            >
-              <ArrowRightIcon className="w-6 h-6" />
-            </button>
-          </div>
         </div>
 
         <div className="mt-12">
           <div className="flex w-full gap-6 pt-4 pb-8 -mt-4 overflow-x-auto snap-x">
-            {featured.map((_, index) => (
-              <Link href="/tokens/123" key={index}>
-                <div className="relative w-full overflow-hidden bg-gray-800 rounded-lg snap-start scroll-ml-6 shrink-0 lg:w-[286px] sm:w-1/2 hover:shadow-lg hover:-translate-y-1 transform transition-all duration-200">
-                  <div className="p-4">
-                    <div className="overflow-hidden rounded aspect-w-4 aspect-h-3">
-                      <img
-                        className="object-cover w-full h-full"
-                        src="https://landingfoliocom.imgix.net/store/collection/niftyui/images/featured-drops-marketplace/3/drop-1.png"
-                        alt=""
-                      />
-                    </div>
-                    <p className="mt-4 text-base font-bold text-white">
-                      <a href="#" title="">
-                        Grave Digger
-                        <span
-                          className="absolute inset-0"
-                          aria-hidden="true"
-                        ></span>
-                      </a>
-                    </p>
-                    <p className="mt-1 text-sm font-medium text-gray-400">
-                      3233 NFTs
-                    </p>
-                    <hr className="mt-3 border-gray-700" />
-                    <div className="grid grid-cols-2 gap-4 mt-3">
-                      <div>
-                        <p className="text-xs font-medium tracking-wide text-gray-400 uppercase">
-                          Floor
-                        </p>
-                        <p className="mt-1 text-sm font-bold text-white">
-                          2.1 TKL
-                        </p>
-                      </div>
+            {featured.map((token) => {
+              const exctractedIpfsHash =
+                !!token.dataAsJson?.url &&
+                extractIPFSHash(token.dataAsJson.url);
+              const transformedUrl = !!exctractedIpfsHash
+                ? `${DEFAULT_IPFS_FALLBACK_GATEWAY}/${exctractedIpfsHash}`
+                : token.dataAsJson?.url;
+              const collectionName =
+                token.dataAsJson?.arbitrary?.collection_name;
 
-                      <div>
-                        <p className="text-xs font-medium tracking-wide text-gray-400 uppercase">
-                          30d Avg Price
+              const lastPrice = token.tokenDEX
+                ?.filter((item) => item.funcid === "S" || item.funcid === "B")
+                ?.sort((a, b) => b.blockHeight - a.blockHeight)?.[0]?.price;
+
+              const lastOfferPrice = token.tokenDEX
+                ?.filter((item) => item.funcid === "s")
+                ?.sort((a, b) => b.blockHeight - a.blockHeight)?.[0]?.price;
+
+              const lastBidPrice = token.tokenDEX
+                ?.filter((item) => item.funcid === "b")
+                ?.sort((a, b) => b.blockHeight - a.blockHeight)?.[0]?.price;
+              return (
+                <Link href={`/tokens/${token.tokenid}`} key={token.tokenid}>
+                  <a title={`View ${token.name}`}>
+                    <div className="relative w-full overflow-hidden bg-gray-800 rounded-lg snap-start scroll-ml-6 shrink-0 lg:w-[286px] sm:w-1/2 hover:shadow-lg hover:-translate-y-1 transform transition-all duration-200">
+                      <div className="p-4">
+                        <div className="overflow-hidden rounded aspect-w-4 aspect-h-3">
+                          <img
+                            className="object-cover w-full h-full"
+                            src={transformedUrl}
+                            alt={token.name}
+                          />
+                        </div>
+                        <p className="mt-4 text-base font-bold text-white">
+                          {token.name}
                         </p>
-                        <p className="mt-1 text-sm font-bold text-white">
-                          1.9 TKL
+                        <p className="mt-1 text-sm font-medium text-gray-400 truncate">
+                          {token.description}
                         </p>
+                        <hr className="mt-3 border-gray-700" />
+                        <div className="grid grid-cols-2 gap-4 mt-3">
+                          <div>
+                            <p className="text-xs font-medium tracking-wide text-gray-400 uppercase">
+                              Collection
+                            </p>
+                            <p
+                              className={classNames(
+                                "mt-1 text-sm font-bold text-white",
+                                {
+                                  italic: !collectionName,
+                                }
+                              )}
+                            >
+                              {collectionName || "No Collection"}
+                            </p>
+                          </div>
+
+                          <div>
+                            <p className="text-xs font-medium tracking-wide text-gray-400 uppercase">
+                              {!!lastPrice
+                                ? "Last Price"
+                                : !!lastOfferPrice
+                                ? "Last Offer"
+                                : !!lastBidPrice
+                                ? "Last Bid"
+                                : "Last Price"}
+                            </p>
+                            <p className="mt-1 text-sm font-bold text-white">
+                              {!!lastPrice
+                                ? `${lastPrice} TKL`
+                                : !!lastOfferPrice
+                                ? `${lastOfferPrice} TKL`
+                                : !!lastBidPrice
+                                ? `${lastBidPrice} TKL`
+                                : "N/A"}
+                            </p>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </Link>
-            ))}
+                  </a>
+                </Link>
+              );
+            })}
           </div>
-        </div>
-
-        <div className="flex items-center justify-center mt-4 space-x-3 lg:hidden">
-          <button
-            type="button"
-            className="p-1.5 -m-1.5 text-gray-300 transition-all duration-200 rounded-full hover:text-gray-600 hover:bg-gray-100"
-          >
-            <ArrowLeftIcon className="w-6 h-6" />
-          </button>
-
-          <button
-            type="button"
-            className="p-1.5 -m-1.5 text-gray-300 transition-all duration-200 rounded-full hover:text-gray-600 hover:bg-gray-100"
-          >
-            <ArrowRightIcon className="w-6 h-6" />
-          </button>
         </div>
       </div>
     </section>
   );
-}
+};
 
-HomeFeatured.defaultProps = {}
+HomeFeatured.defaultProps = {};
 
 export default HomeFeatured;
