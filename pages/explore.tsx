@@ -1,5 +1,9 @@
 import { ChevronDownIcon, ChevronUpIcon, XIcon } from "@heroicons/react/solid";
-import { DEFAULT_PER_PAGE, FILTERS, HIGHLIGHTED_COLLECTIONS } from "utils/defines";
+import {
+  DEFAULT_PER_PAGE,
+  FILTERS,
+  HIGHLIGHTED_COLLECTIONS,
+} from "utils/defines";
 import React, { useMemo, useState } from "react";
 
 import Footer from "../components/Footer";
@@ -18,24 +22,37 @@ interface ExploreProps {
   page: number;
 }
 
-
-const Explore: React.FC<ExploreProps> = ({ queryResults, queryTotalCount, page }) => {
-
+const Explore: React.FC<ExploreProps> = ({
+  queryResults,
+  queryTotalCount,
+  page,
+}) => {
   const router = useRouter();
   const [filtersOpen, setFiltersOpen] = useState(false);
   const activeParameters = router.query;
 
-  const hasActiveParameters = useMemo(() => Object.keys(activeParameters).filter(item => item !== "page").length > 0, [activeParameters]);
+  const hasActiveParameters = useMemo(
+    () =>
+      Object.keys(activeParameters).filter((item) => item !== "page").length >
+      0,
+    [activeParameters]
+  );
 
   const filterLink = (filter: Record<string, any>) => ({
     pathname: router.pathname,
     query: { ...router.query, ...filter },
   });
 
-  const handleFilterChange = ({ key, value }: { key: string, value?: string }) =>
-    router.replace(filterLink({ [key]: value }));
+  const handleFilterChange = ({
+    key,
+    value,
+  }: {
+    key: string;
+    value?: string;
+  }) => router.replace(filterLink({ [key]: value }));
 
-  const handleClearFilters = () => router.replace({ pathname: router.pathname, query: {} });
+  const handleClearFilters = () =>
+    router.replace({ pathname: router.pathname, query: {} });
 
   const totalPages = Math.ceil(queryTotalCount / DEFAULT_PER_PAGE);
 
@@ -205,12 +222,9 @@ const Explore: React.FC<ExploreProps> = ({ queryResults, queryTotalCount, page }
 
             <div className="lg:col-span-3">
               <div>
-                <Pagination
-                  currentPage={page}
-                  totalPages={totalPages}
-                />
+                <Pagination currentPage={page} totalPages={totalPages} />
               </div>
-              
+
               <div className="grid grid-cols-1 gap-6 px-6 mt-6 sm:px-0 sm:grid-cols-2 xl:grid-cols-3">
                 {queryResults.map((token, index) => (
                   <TokenCard key={index} token={token} />
@@ -236,27 +250,30 @@ const Explore: React.FC<ExploreProps> = ({ queryResults, queryTotalCount, page }
 Explore.defaultProps = {};
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-
-  let { page, type, sort } = context.query
+  let { page, type, sort } = context.query;
 
   const pageInt = parseInt(page as unknown as string) || 1;
 
-  const filters: any = [];
-  const sortArray: any = [];
+  const filters: any = {};
+  const sortObject: any = {};
 
-  if (type === FILTERS.TYPE.NFT) filters.push({ supply: { lte: 1 } });
-  if (type === FILTERS.TYPE.FUNGIBLE_TOKEN) filters.push({ supply: { gt: 1 } });
+  if (type === FILTERS.TYPE.NFT) filters.supply = { lte: 1 };
+  if (type === FILTERS.TYPE.FUNGIBLE_TOKEN) filters.supply = { gt: 1 };
 
-
-  if (!!sort && typeof sort === 'string' && sort.includes(":")) {
+  if (!!sort && typeof sort === "string" && sort.includes(":")) {
     const sortParams = sort.split(":");
-    sortArray.push({ [sortParams[0]]: { order: sortParams[1]} });
+    sortObject[sortParams[0]] = sortParams[1];
   } else {
-    sortArray.push({ height: { order: 'desc' } });
+    sortObject.height = "desc";
   }
 
-  const query = await elasticQuery(pageInt, DEFAULT_PER_PAGE, sortArray, filters);
-  
+  const query = await elasticQuery(
+    pageInt,
+    DEFAULT_PER_PAGE,
+    sortObject,
+    filters
+  );
+
   return {
     props: {
       page: pageInt,

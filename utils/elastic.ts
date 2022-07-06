@@ -7,6 +7,22 @@ export type KeyValueType = {
   [field: string]: string;
 };
 
+const createQueryItem = (
+  term: string,
+  query: any
+): esb.MatchQuery | esb.RangeQuery => {
+  const numericMatches = ["height", "supply"];
+
+  if (numericMatches.includes(term)) {
+    // @ts-ignore
+    return esb
+      .rangeQuery(term)
+      [Object.keys(query)[0]](query[Object.keys(query)[0]]);
+  }
+
+  return esb.matchQuery(term, query);
+};
+
 const getItemsPerPage = (perPage: number): number =>
   !!perPage && perPage > conf.maxPerPage
     ? conf.maxPerPage
@@ -31,17 +47,17 @@ export const elasticQuery = async (
   }
   requestBody.sorts(sorts);
 
-  if (search) {
+  if (search && Object.keys(search).length > 0) {
     if (Object.keys(search).length > 1) {
       const matchQueries = [];
       for (const field in search) {
-        matchQueries.push(esb.matchQuery(field, search[field]));
+        matchQueries.push(createQueryItem(field, search[field]));
       }
       requestBody.query(esb.boolQuery().filter(matchQueries));
     } else {
       const term = Object.keys(search)[0];
       const value = search[term];
-      requestBody.query(esb.matchQuery(term, value));
+      requestBody.query(createQueryItem(term, value));
     }
   }
   console.log(requestBody.toJSON());
