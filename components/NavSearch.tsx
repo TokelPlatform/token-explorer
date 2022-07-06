@@ -61,9 +61,7 @@ const NavSearch: React.FC<NavSearchProps> = () => {
   const debouncedSearchQuery = useDebounce(searchQuery, 500);
 
   useEffect(() => {
-    if (!!router.query?.search?.length && router.query?.search?.length > 0) {
-      setSearchQuery(router.query.search as string);
-    }
+    setSearchQuery((router.query?.search as string) || "");
   }, [router.query.search]);
 
   useEffect(() => {

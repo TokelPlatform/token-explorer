@@ -93,7 +93,9 @@ const Explore: React.FC<ExploreProps> = ({
           <div className="md:flex md:items-end md:justify-between">
             <div className="sm:max-w-md">
               <h1 className="text-2xl font-bold text-white sm:text-3xl">
-                All Tokel Tokens
+                {!!activeParameters?.search
+                  ? `Results for "${activeParameters.search}"`
+                  : "All Tokel Tokens"}
               </h1>
               <p className="mt-4 text-base font-normal leading-7 text-gray-100">
                 Filter, explore and discover the whole of of the Tokel chain,
@@ -230,6 +232,12 @@ const Explore: React.FC<ExploreProps> = ({
                   <TokenCard key={index} token={token} />
                 ))}
               </div>
+
+              {queryResults.length === 0 && (
+                <div className="flex items-center justify-center w-full px-4 py-3 text-base font-bold text-slate-100">
+                  No results found
+                </div>
+              )}
 
               <div className="mt-6">
                 <Pagination
