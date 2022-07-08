@@ -9,10 +9,11 @@ import Token from "types/Token";
 import { elasticQuery } from "../utils/elastic";
 
 interface HomeProps {
-  featured?: Array<Token>;
+  featuredTokens?: Array<Token>;
+  exploreTokens?: Array<Token>;
 }
 
-const Home: NextPage<HomeProps> = ({ featured }) => {
+const Home: NextPage<HomeProps> = ({ featuredTokens, exploreTokens }) => {
   return (
     <div>
       <Head>
@@ -25,24 +26,32 @@ const Home: NextPage<HomeProps> = ({ featured }) => {
       </Head>
       <Navbar />
       <HomeHero />
-      <HomeFeatured featured={featured} />
-      <HomeExplore />
+      <HomeFeatured tokens={featuredTokens} />
+      <HomeExplore tokens={exploreTokens} />
       <Footer />
     </div>
   );
 };
 
 export async function getServerSideProps() {
-  const query = await elasticQuery(
+  const featuredQuery = await elasticQuery(
     1,
     4,
     { height: "desc" },
     { featured: "true" }
   );
 
+  const exploreQuery = await elasticQuery(
+    1,
+    12,
+    { height: "desc" },
+    { "tokenDEX.funcid": "s" }
+  );
+
   return {
     props: {
-      featured: query.hits.hits.map((hit: any) => hit._source),
+      featuredTokens: featuredQuery.hits.hits.map((hit: any) => hit._source),
+      exploreTokens: exploreQuery.hits.hits.map((hit: any) => hit._source),
     },
   };
 }

@@ -1,6 +1,7 @@
 import { ArrowCircleRightIcon } from "@heroicons/react/outline";
 import { ExternalLinkIcon } from "@heroicons/react/solid";
 import Link from "next/link";
+import { PATHS } from "utils/defines";
 import React from "react";
 
 interface HomeHeroProps {}
@@ -31,7 +32,7 @@ const HomeHero: React.FC<HomeHeroProps> = () => {
               tokens and NFTs
             </p>
             <div className="flex flex-col justify-center px-16 mt-10 space-y-5 sm:px-0 sm:items-center sm:space-x-5 sm:flex-row lg:justify-start sm:space-y-0">
-              <Link href="/explore">
+              <Link href={PATHS.EXPLORE()}>
                 <a
                   title="Explore page"
                   className="inline-flex items-center justify-center px-4 py-3 text-xs font-bold tracking-widest uppercase transition-all duration-200 bg-transparent border rounded-md border-blue-400 focus:outline-none text-blue-400 focus:ring-2 focus:ring-offset-2 focus:ring-blue-400 hover:bg-blue-400 hover:text-white"

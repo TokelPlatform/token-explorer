@@ -40,7 +40,7 @@ const Explore: React.FC<ExploreProps> = ({
 
   const filterLink = (filter: Record<string, any>) => ({
     pathname: router.pathname,
-    query: { ...router.query, ...filter },
+    query: { ...router.query, ...filter, page: 1 },
   });
 
   const handleFilterChange = ({
@@ -198,7 +198,28 @@ const Explore: React.FC<ExploreProps> = ({
                       />
                     </div>
                   </div>
+                  <div className="py-6 space-y-7">
+                    <button
+                      type="button"
+                      className="flex items-center justify-between w-full p-1 -m-1 text-base font-bold text-white transition-all duration-200 group focus:outline-none"
+                    >
+                      DEX
+                    </button>
 
+                    <div className="space-y-6">
+                      <FilterCheckbox
+                        label="For Sale"
+                        filterKey="dex"
+                        value="listed"
+                      />
+
+                      <FilterCheckbox
+                        label="Has Bids"
+                        filterKey="dex"
+                        value="bids"
+                      />
+                    </div>
+                  </div>
                   <div className="py-6 space-y-7">
                     <button
                       type="button"
@@ -211,7 +232,7 @@ const Explore: React.FC<ExploreProps> = ({
                       {HIGHLIGHTED_COLLECTIONS.map((collection) => (
                         <FilterCheckbox
                           key={collection.filterId}
-                          label={collection.name}
+                          label={collection.label}
                           filterKey="collection"
                           value={collection.filterId}
                         />
@@ -258,9 +279,12 @@ const Explore: React.FC<ExploreProps> = ({
 Explore.defaultProps = {};
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  let { page, type, sort, search } = context.query;
+  let { page, type, sort, search, collection, dex } = context.query;
 
   const pageInt = parseInt(page as unknown as string) || 1;
+  const selectedColection = HIGHLIGHTED_COLLECTIONS.filter(
+    (item) => item.filterId === collection
+  )[0];
 
   const filters: any = {};
   const sortObject: any = {};
@@ -268,6 +292,17 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   if (type === FILTERS.TYPE.NFT) filters.supply = { lte: 1 };
   if (type === FILTERS.TYPE.FUNGIBLE_TOKEN) filters.supply = { gt: 1 };
   if (search && search.length > 0) filters.search = search;
+  if (dex === "listed") filters["tokenDEX.funcid"] = "s";
+  if (dex === "bids") filters["tokenDEX.funcid"] = "b";
+
+  if (!!selectedColection) {
+    filters["owner"] = selectedColection.authorPb;
+    if (!!selectedColection.collectionId)
+      filters["dataAsJson.id"] = selectedColection.collectionId;
+    if (!!selectedColection.collectionName)
+      filters["dataAsJson.arbitrary.collection_name"] =
+        selectedColection.collectionName;
+  }
 
   if (!!sort && typeof sort === "string" && sort.includes(":")) {
     const sortParams = sort.split(":");

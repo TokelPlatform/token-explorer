@@ -1,28 +1,31 @@
-import { DEFAULT_IPFS_FALLBACK_GATEWAY, PATHS } from "../utils/defines";
-
 import { EyeIcon } from "@heroicons/react/solid";
-import Identicon from "identicon.js";
 import Link from "next/link";
+import { PATHS } from "../utils/defines";
 import React from "react";
 import Token from "../types/Token";
-import { extractIPFSHash } from "../utils/helpers";
+import { extractTokenMeta } from "utils/helpers";
 
 interface TokenCardProps {
   token: Token;
 }
 
+const Badge = ({ text }: { text: string }) => (
+  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary text-white">
+    {text}
+  </span>
+);
+
 const TokenCard: React.FC<TokenCardProps> = ({ token }) => {
-
-  const exctractedIpfsHash = !!token.dataAsJson?.url && extractIPFSHash(
-    token.dataAsJson.url
-  );
-  const transformedUrl = !!exctractedIpfsHash
-    ? `${DEFAULT_IPFS_FALLBACK_GATEWAY}/${exctractedIpfsHash}`
-    : token.dataAsJson?.url;
-
-  const trimmedAuthorPublicKey = `${token.owner.substring(0, 4)}...${token.owner.substring(token.owner.length - 4)}`;
-  const trimmedDescription = !!token.description && token.description.length > 250 ? `${token.description?.substring(0, 250)}...` : token.description;
-  const authorIdenticon = new Identicon(token.owner, 50).toString();
+  const {
+    extractedIpfsHash,
+    transformedUrl,
+    authorIdenticon,
+    trimmedAuthorPublicKey,
+    trimmedDescription,
+    lastAskingPrice,
+    lastBidPrice,
+    lastPrice,
+  } = extractTokenMeta(token);
 
   return (
     <div className="flex flex-col overflow-hidden transition-all duration-200 transform bg-white border rounded-lg border-gray-700 hover:shadow-lg hover:-translate-y-1">
@@ -63,6 +66,19 @@ const TokenCard: React.FC<TokenCardProps> = ({ token }) => {
       )}
 
       <div className="p-4">
+        <div className="flex flex-wrap items-center gap-1 mb-1">
+          <Badge
+            text={token.supply === 1 ? "NFT" : `Supply: ${token.supply}`}
+          />
+          {!!lastAskingPrice && <Badge text="For Sale" />}
+          {!!lastPrice && <Badge text="Sold Before" />}
+          {!!lastBidPrice && <Badge text="Has Bids" />}
+          {!!extractedIpfsHash && <Badge text="IPFS Hosted" />}
+          {!!transformedUrl?.includes("arweave") && (
+            <Badge text="Aerwave Hosted" />
+          )}
+        </div>
+
         <p className="text-base font-bold text-primary">
           <Link href={PATHS.TOKEN(token.tokenid)}>
             <a title={`View ${token.name}`}>{token.name}</a>
@@ -107,8 +123,8 @@ const TokenCard: React.FC<TokenCardProps> = ({ token }) => {
       </div>
     </div>
   );
-}
+};
 
-TokenCard.defaultProps = {}
+TokenCard.defaultProps = {};
 
 export default TokenCard;

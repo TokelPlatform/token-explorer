@@ -4,12 +4,11 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import NavSearch from "./NavSearch";
+import { PATHS } from "utils/defines";
 
-interface NavbarProps {
-}
+interface NavbarProps {}
 
 const Navbar: React.FC<NavbarProps> = () => {
-
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
@@ -17,7 +16,7 @@ const Navbar: React.FC<NavbarProps> = () => {
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           <div className="flex-shrink-0">
-            <Link href="/">
+            <Link href={PATHS.HOME}>
               <a title="" className="flex">
                 <Image
                   src="/tokel.svg"
@@ -50,7 +49,7 @@ const Navbar: React.FC<NavbarProps> = () => {
           <NavSearch />
 
           <nav className="hidden lg:flex lg:items-center lg:justify-end lg:space-x-10">
-            <Link href="/explore">
+            <Link href={PATHS.EXPLORE()}>
               <a
                 title="Explore Tokel"
                 className="text-base font-medium text-gray-100 transition-all duration-200 rounded focus:outline-none font-pj hover:text-opacity-50 focus:ring-1 focus:ring-white focus:ring-offset-2"
@@ -151,8 +150,8 @@ const Navbar: React.FC<NavbarProps> = () => {
       </div>
     </header>
   );
-}
+};
 
-Navbar.defaultProps = {}
+Navbar.defaultProps = {};
 
 export default Navbar;

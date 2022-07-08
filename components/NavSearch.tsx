@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import Link from "next/link";
+import { PATHS } from "utils/defines";
 import { SearchIcon } from "@heroicons/react/solid";
 import useDebounce from "../utils/useDebounce";
 import { useRouter } from "next/router";
@@ -93,7 +94,7 @@ const NavSearch: React.FC<NavSearchProps> = () => {
           <div className="absolute top-12 rounded-lg bg-soft px-2 w-96">
             <ul role="list" className="divide-y divide-gray-200 w-auto">
               {results.map((token) => (
-                <Link href={`/tokens/${token.tokenid}`}>
+                <Link href={PATHS.TOKEN(token.tokenid)}>
                   <li key={token.tokenid}>
                     <a className="py-4 flex w-auto cursor-pointer">
                       <img

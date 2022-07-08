@@ -1,18 +1,22 @@
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/solid";
+import { DEFAULT_IPFS_FALLBACK_GATEWAY, PATHS } from "utils/defines";
+import {
+  extractIPFSHash,
+  extractTokenMeta,
+  formatNumberTkl,
+} from "utils/helpers";
 
-import { DEFAULT_IPFS_FALLBACK_GATEWAY } from "utils/defines";
 import Link from "next/link";
 import React from "react";
 import Token from "types/Token";
 import classNames from "classnames";
-import { extractIPFSHash } from "utils/helpers";
 
 interface HomeFeaturedProps {
-  featured?: Array<Token>;
+  tokens?: Array<Token>;
 }
 
-const HomeFeatured: React.FC<HomeFeaturedProps> = ({ featured }) => {
-  if (!featured) return null;
+const HomeFeatured: React.FC<HomeFeaturedProps> = ({ tokens }) => {
+  if (!tokens) return null;
 
   return (
     <section className="py-12 bg-white sm:py-16 lg:py-20">
@@ -25,29 +29,16 @@ const HomeFeatured: React.FC<HomeFeaturedProps> = ({ featured }) => {
 
         <div className="mt-12">
           <div className="flex w-full gap-6 pt-4 pb-8 -mt-4 overflow-x-auto snap-x">
-            {featured.map((token) => {
-              const exctractedIpfsHash =
-                !!token.dataAsJson?.url &&
-                extractIPFSHash(token.dataAsJson.url);
-              const transformedUrl = !!exctractedIpfsHash
-                ? `${DEFAULT_IPFS_FALLBACK_GATEWAY}/${exctractedIpfsHash}`
-                : token.dataAsJson?.url;
-              const collectionName =
-                token.dataAsJson?.arbitrary?.collection_name;
-
-              const lastPrice = token.tokenDEX
-                ?.filter((item) => item.funcid === "S" || item.funcid === "B")
-                ?.sort((a, b) => b.blockHeight - a.blockHeight)?.[0]?.price;
-
-              const lastOfferPrice = token.tokenDEX
-                ?.filter((item) => item.funcid === "s")
-                ?.sort((a, b) => b.blockHeight - a.blockHeight)?.[0]?.price;
-
-              const lastBidPrice = token.tokenDEX
-                ?.filter((item) => item.funcid === "b")
-                ?.sort((a, b) => b.blockHeight - a.blockHeight)?.[0]?.price;
+            {tokens.map((token) => {
+              const {
+                transformedUrl,
+                collectionName,
+                lastBidPrice,
+                lastAskingPrice,
+                lastPrice,
+              } = extractTokenMeta(token);
               return (
-                <Link href={`/tokens/${token.tokenid}`} key={token.tokenid}>
+                <Link href={PATHS.TOKEN(token.tokenid)} key={token.tokenid}>
                   <a title={`View ${token.name}`}>
                     <div className="relative w-full overflow-hidden bg-gray-800 rounded-lg snap-start scroll-ml-6 shrink-0 lg:w-[286px] sm:w-1/2 hover:shadow-lg hover:-translate-y-1 transform transition-all duration-200">
                       <div className="p-4">
@@ -86,7 +77,7 @@ const HomeFeatured: React.FC<HomeFeaturedProps> = ({ featured }) => {
                             <p className="text-xs font-medium tracking-wide text-gray-400 uppercase">
                               {!!lastPrice
                                 ? "Last Price"
-                                : !!lastOfferPrice
+                                : !!lastAskingPrice
                                 ? "Last Offer"
                                 : !!lastBidPrice
                                 ? "Last Bid"
@@ -94,11 +85,11 @@ const HomeFeatured: React.FC<HomeFeaturedProps> = ({ featured }) => {
                             </p>
                             <p className="mt-1 text-sm font-bold text-white">
                               {!!lastPrice
-                                ? `${lastPrice} TKL`
-                                : !!lastOfferPrice
-                                ? `${lastOfferPrice} TKL`
+                                ? `${formatNumberTkl(lastPrice)} TKL`
+                                : !!lastAskingPrice
+                                ? `${formatNumberTkl(lastAskingPrice)} TKL`
                                 : !!lastBidPrice
-                                ? `${lastBidPrice} TKL`
+                                ? `${formatNumberTkl(lastBidPrice)} TKL`
                                 : "N/A"}
                             </p>
                           </div>
