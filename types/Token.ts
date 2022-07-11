@@ -1,3 +1,5 @@
+import DEXOrder from "./DEXOrder";
+
 interface Token {
   IsMixed: "yes" | "no";
   created: number;
@@ -15,7 +17,7 @@ interface Token {
   owner: string;
   result: string;
   supply: number;
-  tokenDEX: Array<any>;
+  tokenDEX: Array<DEXOrder>;
   tokenid: string;
   updated: number;
   version: number;

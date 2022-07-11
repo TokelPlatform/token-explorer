@@ -31,9 +31,17 @@ export const extractTokenMeta = (token: Token) => {
     ?.filter((item) => item.funcid === "s")
     ?.sort((a, b) => b.blockHeight - a.blockHeight)?.[0]?.price;
 
+  const bestAskingPrice = token.tokenDEX
+    ?.filter((item) => item.funcid === "s")
+    ?.sort((a, b) => b.price - a.price)?.[0]?.price;
+
   const lastBidPrice = token.tokenDEX
     ?.filter((item) => item.funcid === "b")
     ?.sort((a, b) => b.blockHeight - a.blockHeight)?.[0]?.price;
+
+  const bestBidPrice = token.tokenDEX
+    ?.filter((item) => item.funcid === "b")
+    ?.sort((a, b) => a.price - b.price)?.[0]?.price;
 
   const trimmedAuthorPublicKey = `${token.owner.substring(
     0,
@@ -54,6 +62,8 @@ export const extractTokenMeta = (token: Token) => {
     lastPrice,
     lastAskingPrice,
     lastBidPrice,
+    bestAskingPrice,
+    bestBidPrice,
     trimmedDescription,
     trimmedAuthorPublicKey,
     authorIdenticon,

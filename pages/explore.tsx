@@ -163,17 +163,23 @@ const Explore: React.FC<ExploreProps> = ({
                         value="height:asc"
                       />
 
-                      {/* <FilterCheckbox
+                      <FilterCheckbox
+                        label="Activity on DEX (most recent)"
+                        filterKey="sort"
+                        value="tokenDEX.blockHeight:asc"
+                      />
+
+                      <FilterCheckbox
                         label="Name (A-Z)"
                         filterKey="sort"
-                        value="name:asc"
+                        value="name.keyword:asc"
                       />
 
                       <FilterCheckbox
                         label="Name (Z-A)"
                         filterKey="sort"
-                        value="name:desc"
-                      /> */}
+                        value="name.keyword:desc"
+                      />
                     </div>
                   </div>
                   <div className="py-6 space-y-7">
