@@ -1,5 +1,4 @@
-import { DownloadIcon, ExternalLinkIcon } from "@heroicons/react/solid";
-
+import { DownloadIcon } from "@heroicons/react/solid";
 import React from "react";
 
 interface OpeningInDappProps {}
