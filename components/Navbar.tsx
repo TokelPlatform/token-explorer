@@ -46,7 +46,9 @@ const Navbar: React.FC<NavbarProps> = () => {
             </button>
           </div>
 
-          <NavSearch />
+          <nav className="hidden lg:flex lg:items-center lg:justify-center lg:space-x-12 z-10">
+            <NavSearch />
+          </nav>
 
           <nav className="hidden lg:flex lg:items-center lg:justify-end lg:space-x-10">
             <Link href={PATHS.EXPLORE()}>
@@ -91,6 +93,8 @@ const Navbar: React.FC<NavbarProps> = () => {
           <nav>
             <div className="px-1 py-8">
               <div className="grid gap-y-7">
+                <NavSearch />
+
                 <a
                   href={PATHS.EXPLORE()}
                   className="flex items-center p-3 -m-3 text-base font-medium text-white transition-all duration-200 rounded-xl hover:bg-gray-50 focus:outline-none font-pj focus:ring-1 focus:ring-white focus:ring-offset-2"

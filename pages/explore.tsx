@@ -125,7 +125,7 @@ const Explore: React.FC<ExploreProps> = ({
           <div className="grid grid-cols-1 mt-6 md:mt-10 lg:grid-cols-4 gap-x-8 gap-y-10">
             <div
               className={classNames("space-y-8 lg:block", {
-                hidden: filtersOpen,
+                hidden: !filtersOpen,
               })}
             >
               <button
