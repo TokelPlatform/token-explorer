@@ -58,17 +58,8 @@ const Navbar: React.FC<NavbarProps> = () => {
               </a>
             </Link>
 
-            <a
-              href="#"
-              title=""
-              className="text-base font-medium text-gray-100 transition-all duration-200 rounded focus:outline-none font-pj hover:text-opacity-50 focus:ring-1 focus:ring-white focus:ring-offset-2"
-            >
-              Create
-            </a>
-
-            <a
-              href="#"
-              title=""
+            <button
+              onClick={() => window.open("tokel://", "_self")}
               className="
                         inline-flex
                         items-center
@@ -92,7 +83,7 @@ const Navbar: React.FC<NavbarProps> = () => {
               role="button"
             >
               Open dApp
-            </a>
+            </button>
           </nav>
         </div>
 
@@ -101,24 +92,16 @@ const Navbar: React.FC<NavbarProps> = () => {
             <div className="px-1 py-8">
               <div className="grid gap-y-7">
                 <a
-                  href="#"
-                  title=""
+                  href={PATHS.EXPLORE()}
                   className="flex items-center p-3 -m-3 text-base font-medium text-white transition-all duration-200 rounded-xl hover:bg-gray-50 focus:outline-none font-pj focus:ring-1 focus:ring-white focus:ring-offset-2"
                 >
                   Explore
                 </a>
 
                 <a
-                  href="#"
-                  title=""
-                  className="flex items-center p-3 -m-3 text-base font-medium text-white transition-all duration-200 rounded-xl hover:bg-gray-50 focus:outline-none font-pj focus:ring-1 focus:ring-white focus:ring-offset-2"
-                >
-                  Create
-                </a>
-
-                <a
-                  href="#"
-                  title=""
+                  href="http://discord.tokel.io"
+                  target="_blank"
+                  title="Discord Community Invite"
                   className="
                             inline-flex
                             items-center

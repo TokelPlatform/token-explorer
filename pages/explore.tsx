@@ -8,6 +8,7 @@ import React, { useMemo, useState } from "react";
 
 import Footer from "../components/Footer";
 import { GetServerSidePropsContext } from "next";
+import HtmlHead from "components/HtmlHead";
 import Navbar from "../components/Navbar";
 import Pagination from "../components/Pagination";
 import Token from "../types/Token";
@@ -87,6 +88,7 @@ const Explore: React.FC<ExploreProps> = ({
 
   return (
     <div>
+      <HtmlHead title="Explore tokens on Tokel - Discover NFTs, tokens, artists, utility and more" />
       <Navbar />
       <section className="py-12 bg-primary sm:py-16 lg:py-20">
         <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
@@ -107,7 +109,7 @@ const Explore: React.FC<ExploreProps> = ({
             <div>
               <button
                 type="button"
-                className="inline-flex items-center justify-center w-full px-4 py-3 mt-6 text-sm font-bold text-slate-100 transition-all duration-200 border border-gray-300 rounded-md md:hidden hover:bg-gray-50 hover:text-white focus:outline-none"
+                className="inline-flex items-center justify-center w-full px-4 py-3 mt-6 text-sm font-bold text-slate-100 transition-all duration-200 border border-gray-300 rounded-md md:hidden hover:bg-gray-50 hover:text-primary focus:outline-none"
                 onClick={() => setFiltersOpen(!filtersOpen)}
               >
                 All Filters

@@ -11,15 +11,17 @@ interface PaginationProps {
   totalItems?: number;
 }
 
-
 interface PageProps {
   page: number | string;
   isCurrent?: boolean;
   disabled?: boolean;
 }
 
-const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, totalItems }) => {
-
+const Pagination: React.FC<PaginationProps> = ({
+  currentPage,
+  totalPages,
+  totalItems,
+}) => {
   const router = useRouter();
 
   const perPage = !!totalItems && Math.ceil(totalItems / totalPages);
@@ -29,10 +31,13 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, totalI
   const hasTwoPreviousPages = previousPage > 2;
   const hasTwoPagesLeft = totalPages - nextPage >= 2;
 
-  const pageLink = (page: number) => ({ pathname: router.pathname, query: { ...router.query, page } })
+  const pageLink = (page: number) => ({
+    pathname: router.pathname,
+    query: { ...router.query, page },
+  });
 
   const Page: React.FC<PageProps> = ({ page, isCurrent, disabled }) => (
-    <Link href={ disabled ? "#" : pageLink(page as number)}>
+    <Link href={disabled ? "#" : pageLink(page as number)}>
       <a
         className={classNames(
           "bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium",
@@ -50,20 +55,21 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, totalI
   if (totalPages === 0) return null;
 
   return (
-    <div className="flex items-center justify-betweensm:px-6">
-      <div className="flex-1 flex justify-between sm:hidden">
-        <a
-          href="#"
+    <div className="flex items-center justify-between sm:px-6">
+      <div className="flex-1 flex items-center sm:hidden">
+        <button
+          onClick={() => router.push(pageLink(previousPage))}
           className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
         >
           Previous
-        </a>
-        <a
-          href="#"
+        </button>
+        <span className="text-white mx-auto">Page {currentPage}</span>
+        <button
+          onClick={() => router.push(pageLink(nextPage))}
           className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
         >
           Next
-        </a>
+        </button>
       </div>
       <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
         {!!perPage && totalItems > 0 && (
@@ -75,7 +81,9 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, totalI
               </span>{" "}
               to{" "}
               <span className="font-medium">
-                {currentPage * perPage > totalItems ? totalItems : currentPage * perPage}
+                {currentPage * perPage > totalItems
+                  ? totalItems
+                  : currentPage * perPage}
               </span>{" "}
               of <span className="font-medium">{totalItems}</span> results
             </p>
@@ -144,8 +152,8 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, totalI
       </div>
     </div>
   );
-}
+};
 
-Pagination.defaultProps = {}
+Pagination.defaultProps = {};
 
 export default Pagination;

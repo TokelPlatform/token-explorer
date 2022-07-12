@@ -20,7 +20,13 @@ const createQueryItem = (
       [Object.keys(query)[0]](query[Object.keys(query)[0]]);
   } else if (term === "search") {
     return esb.multiMatchQuery(
-      ["name", "description", "owner", "dataAsJson.arbitrary.collection_name"],
+      [
+        "name",
+        "description",
+        "owner",
+        "dataAsJson.arbitrary.collection_name",
+        "tokenid",
+      ],
       query
     );
   }

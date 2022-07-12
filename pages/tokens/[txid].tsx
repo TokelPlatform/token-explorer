@@ -2,12 +2,13 @@ import React, { useMemo, useState } from "react";
 import { extractTokenMeta, formatNumberTkl } from "utils/helpers";
 
 import { ExternalLinkIcon } from "@heroicons/react/solid";
-import Footer from "../../components/Footer";
+import Footer from "components/Footer";
 import { GetStaticPropsContext } from "next";
-import Modal from "../../components/Modal";
-import Navbar from "../../components/Navbar";
-import OpeningInDapp from "../../components/OpeningInDapp";
-import Tabs from "../../components/Tabs";
+import HtmlHead from "components/HtmlHead";
+import Modal from "components/Modal";
+import Navbar from "components/Navbar";
+import OpeningInDapp from "components/OpeningInDapp";
+import Tabs from "components/Tabs";
 import Token from "types/Token";
 import { getToken } from "utils/tokens";
 
@@ -20,13 +21,11 @@ const TokenSingle: React.FC<TokenSingleProps> = ({ token }) => {
 
   const handlePostBid = () => {
     setIsInteractingWithMarket(true);
+    window.open(`tokel://dex/bid/${token.tokenid}`, "_self");
   };
 
-  const handleFillBid = (orderId: string) => {
-    setIsInteractingWithMarket(true);
-  };
-
-  const handleFillAsk = (orderId: string) => {
+  const handleFill = (orderId: string) => {
+    window.open(`tokel://dex/fill/${orderId}`, "_self");
     setIsInteractingWithMarket(true);
   };
 
@@ -35,26 +34,15 @@ const TokenSingle: React.FC<TokenSingleProps> = ({ token }) => {
   const bids = token.tokenDEX?.filter((item) => item.funcid === "b");
   const asks = token.tokenDEX?.filter((item) => item.funcid === "s");
 
-  const isNFT = token?.supply === 1;
-
-  const {
-    extractedIpfsHash,
-    transformedUrl,
-    authorIdenticon,
-    trimmedAuthorPublicKey,
-    trimmedDescription,
-    lastAskingPrice,
-    bestAskingPrice,
-    lastBidPrice,
-    bestBidPrice,
-    lastPrice,
-  } = extractTokenMeta(token);
+  const { transformedUrl, authorIdenticon, bestAsk } = extractTokenMeta(token);
 
   // Mock state for token
-  const isListed = !!lastAskingPrice;
+  const isListed = !!bestAsk;
 
   return (
     <div>
+      <HtmlHead title={`${token.name} - Token on Tokel`} />
+
       {isInteractingWithMarket && (
         <Modal handleClose={() => setIsInteractingWithMarket(false)}>
           <OpeningInDapp />
@@ -111,25 +99,32 @@ const TokenSingle: React.FC<TokenSingleProps> = ({ token }) => {
 
               <p className="mt-5 text-sm font-medium text-gray-400 break-all">
                 Created By
-                <p className="text-soft">{token.owner}</p>
+                <p className="text-soft flex gap-1 mt-1">
+                  <img
+                    className="object-cover w-5 h-5 rounded-full shrink-0"
+                    src={`data:image/png;base64,${authorIdenticon}`}
+                    alt={token.owner}
+                  />
+                  {token.owner}
+                </p>
               </p>
 
-              {isListed && isNFT && (
+              {isListed && (
                 <div className="mt-5">
                   <p className="text-sm font-medium text-gray-400">
                     Listing price
                   </p>
                   <p className="text-3xl font-bold text-white">
-                    {formatNumberTkl(bestAskingPrice)} TKL
+                    {formatNumberTkl(bestAsk?.price)} TKL
                   </p>
                 </div>
               )}
 
-              <div className="flex items-center mt-10 space-x-4">
-                {isListed && isNFT && (
+              <div className="flex items-center mt-10 mb-5 space-x-4">
+                {isListed && (
                   <button
                     type="button"
-                    onClick={() => handleFillAsk("123")}
+                    onClick={() => handleFill(bestAsk?.txid)}
                     className="inline-flex items-center justify-center px-12 py-3 text-base font-bold leading-7 text-white transition-all duration-200 bg-blue-500 border-2 border-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-900 hover:bg-blue-700"
                   >
                     Buy Now
@@ -244,7 +239,7 @@ const TokenSingle: React.FC<TokenSingleProps> = ({ token }) => {
                                   <td>
                                     <button
                                       type="button"
-                                      onClick={() => handleFillAsk(ask.txid)}
+                                      onClick={() => handleFill(ask.txid)}
                                       className="inline-flex items-center justify-center px-2 py-1 text-sm font-bold leading-7 text-blue-500 transition-all duration-200 border-blue-500 border-2 bg-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 hover:text-white hover:border-transparent focus:ring-blue-900 hover:bg-blue-700"
                                     >
                                       Fill
@@ -322,7 +317,7 @@ const TokenSingle: React.FC<TokenSingleProps> = ({ token }) => {
                                   <td>
                                     <button
                                       type="button"
-                                      onClick={() => handleFillBid(bid.txid)}
+                                      onClick={() => handleFill(bid.txid)}
                                       className="inline-flex items-center justify-center px-2 py-1 text-sm font-bold leading-7 text-blue-500 transition-all duration-200 border-blue-500 border-2 bg-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 hover:text-white hover:border-transparent focus:ring-blue-900 hover:bg-blue-700"
                                     >
                                       Fill

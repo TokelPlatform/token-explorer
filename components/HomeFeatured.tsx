@@ -28,7 +28,7 @@ const HomeFeatured: React.FC<HomeFeaturedProps> = ({ tokens }) => {
         </div>
 
         <div className="mt-12">
-          <div className="flex w-full gap-6 pt-4 pb-8 -mt-4 overflow-x-auto snap-x">
+          <div className="md:grid md:grid-cols-4 flex flex-col w-full gap-6 pt-4 pb-8 -mt-4">
             {tokens.map((token) => {
               const {
                 transformedUrl,
@@ -38,9 +38,9 @@ const HomeFeatured: React.FC<HomeFeaturedProps> = ({ tokens }) => {
                 lastPrice,
               } = extractTokenMeta(token);
               return (
-                <Link href={PATHS.TOKEN(token.tokenid)} key={token.tokenid}>
-                  <a title={`View ${token.name}`}>
-                    <div className="relative w-full overflow-hidden bg-gray-800 rounded-lg snap-start scroll-ml-6 shrink-0 lg:w-[286px] sm:w-1/2 hover:shadow-lg hover:-translate-y-1 transform transition-all duration-200">
+                <div className="bg-gray-800 rounded-lg scroll-ml-6 shrink-0 hover:shadow-lg hover:-translate-y-1 transform transition-all duration-200">
+                  <Link href={PATHS.TOKEN(token.tokenid)} key={token.tokenid}>
+                    <a title={`View ${token.name}`}>
                       <div className="p-4">
                         <div className="overflow-hidden rounded aspect-w-4 aspect-h-3">
                           <img
@@ -95,9 +95,9 @@ const HomeFeatured: React.FC<HomeFeaturedProps> = ({ tokens }) => {
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </a>
-                </Link>
+                    </a>
+                  </Link>
+                </div>
               );
             })}
           </div>

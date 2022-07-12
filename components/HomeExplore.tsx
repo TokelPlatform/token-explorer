@@ -28,7 +28,7 @@ const HomeExplore: React.FC<HomeExploreProps> = ({ tokens }) => {
               transformedUrl,
               trimmedAuthorPublicKey,
               authorIdenticon,
-              lastAskingPrice,
+              bestAsk,
             } = extractTokenMeta(token);
             return (
               <div
@@ -79,7 +79,7 @@ const HomeExplore: React.FC<HomeExploreProps> = ({ tokens }) => {
                             Asking Price
                           </p>
                           <p className="mt-1 text-sm font-bold text-gray-900">
-                            {formatNumberTkl(lastAskingPrice)} TKL
+                            {formatNumberTkl(bestAsk?.price)} TKL
                           </p>
                         </div>
 
