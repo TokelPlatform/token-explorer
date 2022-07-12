@@ -21,11 +21,11 @@ const TokenSingle: React.FC<TokenSingleProps> = ({ token }) => {
 
   const handlePostBid = () => {
     setIsInteractingWithMarket(true);
-    window.open(`tokel://dex/bid/${token.tokenid}`, "_self");
+    window.open(`tokel://dex?action=bid&tokenid=${token.tokenid}`, "_self");
   };
 
   const handleFill = (orderId: string) => {
-    window.open(`tokel://dex/fill/${orderId}`, "_self");
+    window.open(`tokel://dex?action=fill&orderid=${orderId}`, "_self");
     setIsInteractingWithMarket(true);
   };
 

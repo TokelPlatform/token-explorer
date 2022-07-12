@@ -35,13 +35,15 @@ const OpeningInDapp: React.FC<OpeningInDappProps> = () => {
         </p>
         <h2 className="text-slate-600 font-medium text-md mt-2 flex items-center">
           Don't have the Tokel dApp?
-          <button
+          <a
             type="button"
+            target="_blank"
+            href="https://github.com/tokelPlatform/tokel_dapp/releases"
             className="mt-2 ml-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
             <DownloadIcon className="w-4 h-4 mr-2" />
             Download Now
-          </button>
+          </a>
         </h2>
       </div>
     </div>
