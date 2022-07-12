@@ -2,11 +2,9 @@ import { DownloadIcon, ExternalLinkIcon } from "@heroicons/react/solid";
 
 import React from "react";
 
-interface OpeningInDappProps {
-}
+interface OpeningInDappProps {}
 
 const OpeningInDapp: React.FC<OpeningInDappProps> = () => {
-
   return (
     <div className="w-[60rem] flex gap-8">
       <div className="w-[45rem]">
@@ -46,19 +44,9 @@ const OpeningInDapp: React.FC<OpeningInDappProps> = () => {
             Download Now
           </button>
         </h2>
-        <h2 className="text-slate-600 font-medium text-md mt-2 flex items-center">
-          Link didn't open?
-          <button
-            type="button"
-            className="mt-2 ml-2 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-blue-700 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-          >
-            <ExternalLinkIcon className="w-4 h-4 mr-2" />
-            Open in dApp
-          </button>
-        </h2>
       </div>
     </div>
   );
-}
+};
 
 export default OpeningInDapp;
