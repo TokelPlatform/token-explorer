@@ -1,4 +1,4 @@
-import { conf, elasticclient } from "../config/elastic";
+const { conf, elasticclient } = require("../config/elastic");
 
 import esb from "elastic-builder";
 import { index } from "../config";
@@ -60,6 +60,6 @@ export const update = async (index: string, id: string, body: any) =>
 
 export const get = async (index: string, id: string) =>
   elasticclient.get({
-    index: index,
+    index,
     id,
   });
