@@ -1,11 +1,9 @@
 import Image from "next/image";
 import React from "react";
 
-interface FooterProps {
-}
+interface FooterProps {}
 
 const Footer: React.FC<FooterProps> = () => {
-
   return (
     <section className="py-10 bg-soft sm:pt-16 lg:pt-24">
       <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
@@ -111,6 +109,7 @@ const Footer: React.FC<FooterProps> = () => {
               <li>
                 <a
                   href="https://tokel.io"
+                  rel="noreferrer"
                   target="_blank"
                   title="Tokel's website"
                   className="flex text-base text-black transition-all duration-200 hover:text-blue-600 focus:text-blue-600"
@@ -122,6 +121,7 @@ const Footer: React.FC<FooterProps> = () => {
               <li>
                 <a
                   href="https://explorer.tokel.io"
+                  rel="noreferrer"
                   target="_blank"
                   title="Tokel's transaction explorer"
                   className="flex text-base text-black transition-all duration-200 hover:text-blue-600 focus:text-blue-600"
@@ -133,6 +133,7 @@ const Footer: React.FC<FooterProps> = () => {
               <li>
                 <a
                   href="https://tokel.io/TokelPaper1stEdition.pdf"
+                  rel="noreferrer"
                   target="_blank"
                   title="Tokel's whitepaper"
                   className="flex text-base text-black transition-all duration-200 hover:text-blue-600 focus:text-blue-600"
@@ -178,7 +179,6 @@ const Footer: React.FC<FooterProps> = () => {
                   How to sell a token
                 </a>
               </li>
-
             </ul>
           </div>
 
@@ -219,8 +219,8 @@ const Footer: React.FC<FooterProps> = () => {
       </div>
     </section>
   );
-}
+};
 
-Footer.defaultProps = {}
+Footer.defaultProps = {};
 
 export default Footer;

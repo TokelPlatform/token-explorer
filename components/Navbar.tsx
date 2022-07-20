@@ -4,12 +4,11 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import NavSearch from "./NavSearch";
+import { PATHS } from "utils/defines";
 
-interface NavbarProps {
-}
+interface NavbarProps {}
 
 const Navbar: React.FC<NavbarProps> = () => {
-
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
@@ -17,7 +16,7 @@ const Navbar: React.FC<NavbarProps> = () => {
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           <div className="flex-shrink-0">
-            <Link href="/">
+            <Link href={PATHS.HOME}>
               <a title="" className="flex">
                 <Image
                   src="/tokel.svg"
@@ -47,29 +46,22 @@ const Navbar: React.FC<NavbarProps> = () => {
             </button>
           </div>
 
-          <NavSearch />
+          <nav className="hidden lg:flex lg:items-center lg:justify-center lg:space-x-12 z-10">
+            <NavSearch />
+          </nav>
 
           <nav className="hidden lg:flex lg:items-center lg:justify-end lg:space-x-10">
-            <Link href="/explore">
+            <Link href={PATHS.EXPLORE()}>
               <a
                 title="Explore Tokel"
-                className="text-base font-medium text-gray-100 transition-all duration-200 rounded focus:outline-none font-pj hover:text-opacity-50 focus:ring-1 focus:ring-gray-900 focus:ring-offset-2"
+                className="text-base font-medium text-gray-100 transition-all duration-200 rounded focus:outline-none font-pj hover:text-opacity-50 focus:ring-1 focus:ring-white focus:ring-offset-2"
               >
                 Explore
               </a>
             </Link>
 
-            <a
-              href="#"
-              title=""
-              className="text-base font-medium text-gray-100 transition-all duration-200 rounded focus:outline-none font-pj hover:text-opacity-50 focus:ring-1 focus:ring-gray-900 focus:ring-offset-2"
-            >
-              Create
-            </a>
-
-            <a
-              href="#"
-              title=""
+            <button
+              onClick={() => window.open("tokel://", "_self")}
               className="
                         inline-flex
                         items-center
@@ -92,8 +84,8 @@ const Navbar: React.FC<NavbarProps> = () => {
                     "
               role="button"
             >
-              Connect Wallet
-            </a>
+              Open dApp
+            </button>
           </nav>
         </div>
 
@@ -101,45 +93,19 @@ const Navbar: React.FC<NavbarProps> = () => {
           <nav>
             <div className="px-1 py-8">
               <div className="grid gap-y-7">
+                <NavSearch />
+
                 <a
-                  href="#"
-                  title=""
-                  className="flex items-center p-3 -m-3 text-base font-medium text-gray-900 transition-all duration-200 rounded-xl hover:bg-gray-50 focus:outline-none font-pj focus:ring-1 focus:ring-gray-900 focus:ring-offset-2"
+                  href={PATHS.EXPLORE()}
+                  className="flex items-center p-3 -m-3 text-base font-medium text-white transition-all duration-200 rounded-xl hover:bg-gray-50 focus:outline-none font-pj focus:ring-1 focus:ring-white focus:ring-offset-2"
                 >
-                  {" "}
-                  Experts{" "}
+                  Explore
                 </a>
 
                 <a
-                  href="#"
-                  title=""
-                  className="flex items-center p-3 -m-3 text-base font-medium text-gray-900 transition-all duration-200 rounded-xl hover:bg-gray-50 focus:outline-none font-pj focus:ring-1 focus:ring-gray-900 focus:ring-offset-2"
-                >
-                  {" "}
-                  Community Groups{" "}
-                </a>
-
-                <a
-                  href="#"
-                  title=""
-                  className="flex items-center p-3 -m-3 text-base font-medium text-gray-900 transition-all duration-200 rounded-xl hover:bg-gray-50 focus:outline-none font-pj focus:ring-1 focus:ring-gray-900 focus:ring-offset-2"
-                >
-                  {" "}
-                  Support{" "}
-                </a>
-
-                <a
-                  href="#"
-                  title=""
-                  className="flex items-center p-3 -m-3 text-base font-medium text-gray-900 transition-all duration-200 rounded-xl hover:bg-gray-50 focus:outline-none font-pj focus:ring-1 focus:ring-gray-900 focus:ring-offset-2"
-                >
-                  {" "}
-                  Login{" "}
-                </a>
-
-                <a
-                  href="#"
-                  title=""
+                  href="http://discord.tokel.io"
+                  target="_blank"
+                  title="Discord Community Invite"
                   className="
                             inline-flex
                             items-center
@@ -149,20 +115,20 @@ const Navbar: React.FC<NavbarProps> = () => {
                             text-base
                             font-semibold
                             leading-7
-                            text-gray-900
+                            text-white
                             transition-all
                             duration-200
                             bg-transparent
-                            border border-gray-900
+                            border border-white
                             rounded-xl
                             font-pj
-                            focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900
-                            hover:bg-gray-900 hover:text-white
-                            focus:bg-gray-900 focus:text-white
+                            focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white
+                            hover:bg-white hover:text-white
+                            focus:bg-white focus:text-white
                         "
                   role="button"
                 >
-                  Join community
+                  Join Discord Community
                 </a>
               </div>
             </div>
@@ -171,8 +137,8 @@ const Navbar: React.FC<NavbarProps> = () => {
       </div>
     </header>
   );
-}
+};
 
-Navbar.defaultProps = {}
+Navbar.defaultProps = {};
 
 export default Navbar;

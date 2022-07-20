@@ -1,14 +1,22 @@
-import {ArrowLeftIcon, ArrowRightIcon} from "@heroicons/react/solid";
+import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/solid";
+import { DEFAULT_IPFS_FALLBACK_GATEWAY, PATHS } from "utils/defines";
+import {
+  extractIPFSHash,
+  extractTokenMeta,
+  formatNumberTkl,
+} from "utils/helpers";
 
 import Link from "next/link";
 import React from "react";
-
-const featured = [{}, {}, {}, {}];
+import Token from "types/Token";
+import classNames from "classnames";
 
 interface HomeFeaturedProps {
+  tokens?: Array<Token>;
 }
 
-const HomeFeatured: React.FC<HomeFeaturedProps> = () => {
+const HomeFeatured: React.FC<HomeFeaturedProps> = ({ tokens }) => {
+  if (!tokens) return null;
 
   return (
     <section className="py-12 bg-white sm:py-16 lg:py-20">
@@ -17,96 +25,88 @@ const HomeFeatured: React.FC<HomeFeaturedProps> = () => {
           <h2 className="flex-1 text-2xl font-bold text-gray-900">
             Featured NFTs & Tokens
           </h2>
-
-          <div className="hidden lg:items-center lg:justify-end lg:space-x-3 lg:flex">
-            <button
-              type="button"
-              className="p-1.5 -m-1.5 text-gray-300 transition-all duration-200 rounded-full hover:text-gray-600 hover:bg-gray-100"
-            >
-              <ArrowLeftIcon className="w-6 h-6" />
-            </button>
-
-            <button
-              type="button"
-              className="p-1.5 -m-1.5 text-gray-300 transition-all duration-200 rounded-full hover:text-gray-600 hover:bg-gray-100"
-            >
-              <ArrowRightIcon className="w-6 h-6" />
-            </button>
-          </div>
         </div>
 
         <div className="mt-12">
-          <div className="flex w-full gap-6 pt-4 pb-8 -mt-4 overflow-x-auto snap-x">
-            {featured.map((_, index) => (
-              <Link href="/tokens/123" key={index}>
-                <div className="relative w-full overflow-hidden bg-gray-800 rounded-lg snap-start scroll-ml-6 shrink-0 lg:w-[286px] sm:w-1/2 hover:shadow-lg hover:-translate-y-1 transform transition-all duration-200">
-                  <div className="p-4">
-                    <div className="overflow-hidden rounded aspect-w-4 aspect-h-3">
-                      <img
-                        className="object-cover w-full h-full"
-                        src="https://landingfoliocom.imgix.net/store/collection/niftyui/images/featured-drops-marketplace/3/drop-1.png"
-                        alt=""
-                      />
-                    </div>
-                    <p className="mt-4 text-base font-bold text-white">
-                      <a href="#" title="">
-                        Grave Digger
-                        <span
-                          className="absolute inset-0"
-                          aria-hidden="true"
-                        ></span>
-                      </a>
-                    </p>
-                    <p className="mt-1 text-sm font-medium text-gray-400">
-                      3233 NFTs
-                    </p>
-                    <hr className="mt-3 border-gray-700" />
-                    <div className="grid grid-cols-2 gap-4 mt-3">
-                      <div>
-                        <p className="text-xs font-medium tracking-wide text-gray-400 uppercase">
-                          Floor
+          <div className="md:grid md:grid-cols-4 flex flex-col w-full gap-6 pt-4 pb-8 -mt-4">
+            {tokens.map((token) => {
+              const {
+                transformedUrl,
+                collectionName,
+                lastBidPrice,
+                lastAskingPrice,
+                lastPrice,
+              } = extractTokenMeta(token);
+              return (
+                <div className="bg-gray-800 rounded-lg scroll-ml-6 shrink-0 hover:shadow-lg hover:-translate-y-1 transform transition-all duration-200">
+                  <Link href={PATHS.TOKEN(token.tokenid)} key={token.tokenid}>
+                    <a title={`View ${token.name}`}>
+                      <div className="p-4">
+                        <div className="overflow-hidden rounded aspect-w-4 aspect-h-3">
+                          <img
+                            className="object-cover w-full h-full"
+                            src={transformedUrl}
+                            alt={token.name}
+                          />
+                        </div>
+                        <p className="mt-4 text-base font-bold text-white">
+                          {token.name}
                         </p>
-                        <p className="mt-1 text-sm font-bold text-white">
-                          2.1 TKL
+                        <p className="mt-1 text-sm font-medium text-gray-400 truncate">
+                          {token.description}
                         </p>
-                      </div>
+                        <hr className="mt-3 border-gray-700" />
+                        <div className="grid grid-cols-2 gap-4 mt-3">
+                          <div>
+                            <p className="text-xs font-medium tracking-wide text-gray-400 uppercase">
+                              Collection
+                            </p>
+                            <p
+                              className={classNames(
+                                "mt-1 text-sm font-bold text-white",
+                                {
+                                  italic: !collectionName,
+                                }
+                              )}
+                            >
+                              {collectionName || "No Collection"}
+                            </p>
+                          </div>
 
-                      <div>
-                        <p className="text-xs font-medium tracking-wide text-gray-400 uppercase">
-                          30d Avg Price
-                        </p>
-                        <p className="mt-1 text-sm font-bold text-white">
-                          1.9 TKL
-                        </p>
+                          <div>
+                            <p className="text-xs font-medium tracking-wide text-gray-400 uppercase">
+                              {!!lastPrice
+                                ? "Last Price"
+                                : !!lastAskingPrice
+                                ? "Last Offer"
+                                : !!lastBidPrice
+                                ? "Last Bid"
+                                : "Last Price"}
+                            </p>
+                            <p className="mt-1 text-sm font-bold text-white">
+                              {!!lastPrice
+                                ? `${formatNumberTkl(lastPrice)} TKL`
+                                : !!lastAskingPrice
+                                ? `${formatNumberTkl(lastAskingPrice)} TKL`
+                                : !!lastBidPrice
+                                ? `${formatNumberTkl(lastBidPrice)} TKL`
+                                : "N/A"}
+                            </p>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
+                    </a>
+                  </Link>
                 </div>
-              </Link>
-            ))}
+              );
+            })}
           </div>
-        </div>
-
-        <div className="flex items-center justify-center mt-4 space-x-3 lg:hidden">
-          <button
-            type="button"
-            className="p-1.5 -m-1.5 text-gray-300 transition-all duration-200 rounded-full hover:text-gray-600 hover:bg-gray-100"
-          >
-            <ArrowLeftIcon className="w-6 h-6" />
-          </button>
-
-          <button
-            type="button"
-            className="p-1.5 -m-1.5 text-gray-300 transition-all duration-200 rounded-full hover:text-gray-600 hover:bg-gray-100"
-          >
-            <ArrowRightIcon className="w-6 h-6" />
-          </button>
         </div>
       </div>
     </section>
   );
-}
+};
 
-HomeFeatured.defaultProps = {}
+HomeFeatured.defaultProps = {};
 
 export default HomeFeatured;
