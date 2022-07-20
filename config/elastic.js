@@ -1,22 +1,19 @@
 const { Client } = require("@elastic/elasticsearch");
 
-export const conf = {
+const conf = {
   maxPerPage: 30,
-  server: process.env.ELASTIC_SERVER,
-  port: "9200",
-  localhost: "localhost",
+  server: process.env.ELASTIC_SERVER || "",
+  port: process.env.ELASTIC_PORT || "9200",
+  localhost: "127.0.0.1",
   cert: "/home/test/elasticsearch-8.2.2/config/certs/http_ca.crt",
   index: process.env.ELASTIC_INDEX,
 };
 
-export const elasticclient = new Client({
-  // node: process.env.LOCAL_RUN ? 'https://localhost:9200' : 'https://167.99.114.240:9200',
+// const server = process.env.LOCAL_RUN ? conf.localhost : conf.server;
+const server = conf.server
 
-  node: "https://".concat(
-    process.env.ELASTIC_SERVER ? process.env.ELASTIC_SERVER : "localhost",
-    ":",
-    conf.port
-  ),
+const elasticclient = new Client({
+  node: "https://".concat(server, ":", conf.port),
   auth: {
     username: process.env.ELASTIC_USER,
     password: process.env.ELASTIC_PASS,
@@ -29,3 +26,9 @@ export const elasticclient = new Client({
   requestTimeout: 60000,
   sniffOnStart: true,
 });
+
+
+module.exports = {
+  elasticclient,
+  conf
+}
