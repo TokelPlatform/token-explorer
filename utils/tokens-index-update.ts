@@ -1,5 +1,4 @@
-// const elasticIndex = require("../config/index").TOKENS;
-const elasticIndex = "test-me-index4";
+const elasticIndex = require("../config/index").TOKENS;
 
 const logger = require("pino")();
 const PQueue = require("p-queue");
@@ -34,6 +33,11 @@ const unpackArbitraryData = (tokenData: any) => {
           tokenData.tokenid + " Arbitrary data is an empty string: "
         );
       }
+    }
+    // number_in_collection is string, since people put some long values in there
+    if (arbitrary?.number_in_collection) {
+      arbitrary.number_in_collection =
+        arbitrary.number_in_collection.toString();
     }
     if (arbitrary.date) {
       arbitrary.date = new Date(arbitrary.date.replace("th", "")).getTime();
@@ -180,6 +184,7 @@ const processBatch = async (
   queue: any
 ) => {
   const tokens = await getTokens(beginHeight, endHeight);
+  logger.info(tokens);
   logger.info(
     "Running the batch from " +
       beginHeight +

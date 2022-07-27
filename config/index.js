@@ -1,4 +1,4 @@
-export const index = {
-    TOKENS: 'test-token-index-dex2',
+module.exports= {
+    TOKENS: 'token-index',
     AUTHORS: 'test-token-index-dex'
 }

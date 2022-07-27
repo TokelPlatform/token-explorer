@@ -9,8 +9,7 @@ const conf = {
   index: process.env.ELASTIC_INDEX,
 };
 
-// const server = process.env.LOCAL_RUN ? conf.localhost : conf.server;
-const server = conf.server
+const server = process.env.LOCAL_RUN ? conf.localhost : conf.server;
 
 const elasticclient = new Client({
   node: "https://".concat(server, ":", conf.port),
