@@ -4,7 +4,7 @@ This repo contains the code to run a token-specific web explorer with [Tokel](ht
 
 Blockchain data is stored in Elastic Search Store.
 
-When deploying the server you have to manually create `.env.local` file in root of the project and populate the following vars.
+When deploying the server you have to manually create `.env.local` file in root of the project and populate the following environment vars.
 
 ```
 LOCAL_RUN=1
