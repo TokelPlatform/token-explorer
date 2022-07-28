@@ -1,4 +1,4 @@
-const elasticIndex = require("../config/index").TOKENS;
+const { TOKENS } = require("../config/index");
 
 const logger = require("pino")();
 const PQueue = require("p-queue");
@@ -48,7 +48,7 @@ const unpackArbitraryData = (tokenData: any) => {
 
 const createNewRecord = async (token: any, assetsCC: any) => {
   await elasticclient.index({
-    index: elasticIndex,
+    index: TOKENS,
     id: token.tokenid,
     document: {
       ...token,
@@ -62,7 +62,7 @@ const createNewRecord = async (token: any, assetsCC: any) => {
 
 const updateRecord = async (token: any, assetsCC: any) => {
   await elasticclient.update({
-    index: elasticIndex,
+    index: TOKENS,
     id: token,
     body: {
       doc: {
@@ -96,7 +96,7 @@ const processTokenInformation = async (token: any, idx: number) => {
     }
 
     const tokenExists = await elasticclient.exists({
-      index: elasticIndex,
+      index: TOKENS,
       id: result.tokenid,
     });
     if (!tokenExists) {
@@ -143,15 +143,15 @@ const getBeginHeight = async () => {
     }
     // request elastic to get the latest record and get its height.
     const indexExists = await elasticclient.indices.exists({
-      index: elasticIndex,
+      index: TOKENS,
     });
-    info(logPref, "The index " + elasticIndex + " exists: " + indexExists);
+    info(logPref, "The index " + TOKENS + " exists: " + indexExists);
     if (indexExists) {
       let requestBody = esb
         .requestBodySearch()
         .sort(esb.sort("height", "desc"));
       let lastRecord: any = await elasticclient.search({
-        index: elasticIndex,
+        index: TOKENS,
         ...requestBody.toJSON(),
       });
       lastRecord = lastRecord.hits?.hits

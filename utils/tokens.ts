@@ -1,7 +1,7 @@
 import { KeyValueType, elasticQuery, get, update } from "./elastic";
 
 import Joi from "joi";
-import { index } from "config";
+import { TOKENS } from "config";
 
 //*** Validation schemas  */
 export const tokenIdSchema = Joi.object({
@@ -60,7 +60,7 @@ export const getTokens = async (
  */
 export const getToken = async (id: string) => {
   validate(tokenIdSchema, { id });
-  const doc = await get(index.TOKENS, id.toString());
+  const doc = await get(TOKENS, id.toString());
   return doc._source ? doc._source : doc;
 };
 
@@ -72,5 +72,5 @@ export const getToken = async (id: string) => {
  */
 export const editToken = async (id: string, body: TokenType) => {
   validate(tokenIdSchema, { id });
-  return update(index.TOKENS, id, body);
+  return update(TOKENS, id, body);
 };

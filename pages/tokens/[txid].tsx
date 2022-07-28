@@ -78,7 +78,7 @@ const TokenSingle: React.FC<TokenSingleProps> = ({ token }) => {
                 <a
                   className="text-blue-500 hover:text-blue-700 flex break-all"
                   href={`http://explorer.tokel.io/tokens/${token.tokenid}/transactions`}
-                  target="_blank"
+                  target="_blank" rel="noreferrer"
                 >
                   {token.tokenid}
                   <ExternalLinkIcon className="h-5 w-5 ml-1" />
@@ -90,7 +90,7 @@ const TokenSingle: React.FC<TokenSingleProps> = ({ token }) => {
                 <a
                   className="text-blue-500 hover:text-blue-700 flex break-all"
                   href={transformedUrl}
-                  target="_blank"
+                  target="_blank" rel="noreferrer"
                 >
                   {token.dataAsJson?.url}
                   <ExternalLinkIcon className="h-5 w-5 ml-1" />
@@ -214,7 +214,7 @@ const TokenSingle: React.FC<TokenSingleProps> = ({ token }) => {
                                     <a
                                       className="text-blue-500 hover:text-blue-700 text-sm whitespace-nowrap flex truncate"
                                       href={`http://explorer.tokel.io/address/${ask.origtokenaddress}`}
-                                      target="_blank"
+                                      target="_blank" rel="noreferrer"
                                     >
                                       {ask.origaddress}
                                       <ExternalLinkIcon className="h-5 w-5 ml-1" />
@@ -292,7 +292,7 @@ const TokenSingle: React.FC<TokenSingleProps> = ({ token }) => {
                                     <a
                                       className="text-blue-500 hover:text-blue-700 text-sm whitespace-nowrap flex truncate"
                                       href={`http://explorer.tokel.io/address/${bid.origtokenaddress}`}
-                                      target="_blank"
+                                      target="_blank" rel="noreferrer"
                                     >
                                       {bid.origtokenaddress}
                                       <ExternalLinkIcon className="h-5 w-5 ml-1" />

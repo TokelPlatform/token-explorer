@@ -38,7 +38,10 @@ const HomeFeatured: React.FC<HomeFeaturedProps> = ({ tokens }) => {
                 lastPrice,
               } = extractTokenMeta(token);
               return (
-                <div className="bg-gray-800 rounded-lg scroll-ml-6 shrink-0 hover:shadow-lg hover:-translate-y-1 transform transition-all duration-200">
+                <div
+                  key={token.tokenid}
+                  className="bg-gray-800 rounded-lg scroll-ml-6 shrink-0 hover:shadow-lg hover:-translate-y-1 transform transition-all duration-200"
+                >
                   <Link href={PATHS.TOKEN(token.tokenid)} key={token.tokenid}>
                     <a title={`View ${token.name}`}>
                       <div className="p-4">

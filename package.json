@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "populate": "ts-node utils/tokens-index-update.ts | pino-pretty -c -l"
+    "prod": "next build && next start",
+    "populate": "ts-node crons/tokens-index-update.ts | pino-pretty -c -l"
   },
   "dependencies": {
     "@elastic/elasticsearch": "^8.2.1",

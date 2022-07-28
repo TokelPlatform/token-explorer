@@ -1,7 +1,7 @@
 const { conf, elasticclient } = require("../config/elastic");
 
+import { TOKENS } from "../config";
 import esb from "elastic-builder";
-import { index } from "../config";
 
 export type KeyValueType = {
   [field: string]: string;
@@ -73,7 +73,7 @@ export const elasticQuery = async (
   }
   console.log(requestBody.toJSON());
   return elasticclient.search({
-    index: index.TOKENS,
+    index: TOKENS,
     ...requestBody.toJSON(),
   });
 };

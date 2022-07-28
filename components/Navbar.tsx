@@ -126,7 +126,7 @@ const Navbar: React.FC<NavbarProps> = () => {
                             hover:bg-white hover:text-white
                             focus:bg-white focus:text-white
                         "
-                  role="button"
+                  role="button" rel="noreferrer"
                 >
                   Join Discord Community
                 </a>
