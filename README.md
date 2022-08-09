@@ -2,6 +2,8 @@
 
 This repo contains the code to run a token-specific web explorer with [Tokel](https://tokel.io)-compatible chains as data sources.
 
+The explorer will use data directly from a full Tokel node.
+
 Blockchain data is stored in Elastic Search Store.
 
 When deploying the server you have to manually create `.env.local` file in root of the project and populate the following environment vars.
