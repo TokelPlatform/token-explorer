@@ -21,7 +21,7 @@
     "joi": "^17.6.0",
     "komodo-rpc-js": "^0.0.4",
     "next": "12.1.6",
-    "next-connect": "^0.12.2",
+    "next-connect": "^1.0.0",
     "next-joi": "^2.2.1",
     "p-queue": "^6.6.2",
     "pino": "^8.1.0",
