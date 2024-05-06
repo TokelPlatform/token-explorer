@@ -448,14 +448,6 @@ axobject-query@^2.2.0:
   resolved "https://registry.yarnpkg.com/axobject-query/-/axobject-query-2.2.0.tgz#943d47e10c0b704aa42275e20edf3722648989be"
   integrity sha512-Td525n+iPOOyUQIeBfcASuG6uJsDOITl7Mds5gFyerkWiX7qhUTdYUBlSgNMyVqtSJqwpt1kXGLdUt6SykLMRA==
 
-babel-runtime@^6.26.0:
-  version "6.26.0"
-  resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
-  integrity sha512-ITKNuq2wKlW1fJg9sSW52eepoYgZBggvOAHC0u/CYu/qxQ9EVzThCgR69BnSXLHjy2f7SY5zaQ4yt7H9ZVxY2g==
-  dependencies:
-    core-js "^2.4.0"
-    regenerator-runtime "^0.11.0"
-
 balanced-match@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.2.tgz#e83e3a7e3f300b34cb9d87f615fa0cbf357690ee"
@@ -564,11 +556,6 @@ core-js-pure@^3.20.2:
   version "3.22.7"
   resolved "https://registry.yarnpkg.com/core-js-pure/-/core-js-pure-3.22.7.tgz#f58489d9b309fa7b26486a0f70d4ec19a418084e"
   integrity sha512-wTriFxiZI+C8msGeh7fJcbC/a0V8fdInN1oS2eK79DMBGs8iIJiXhtFJCiT3rBa8w6zroHWW3p8ArlujZ/Mz+w==
-
-core-js@^2.4.0:
-  version "2.6.12"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.12.tgz#d9333dfa7b065e347cc5682219d6f690859cc2ec"
-  integrity sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==
 
 cross-spawn@^7.0.2:
   version "7.0.3"
@@ -681,11 +668,10 @@ doctrine@^3.0.0:
     esutils "^2.0.2"
 
 elastic-builder@^2.16.0:
-  version "2.16.0"
-  resolved "https://registry.yarnpkg.com/elastic-builder/-/elastic-builder-2.16.0.tgz#684757ab9e6a4214653d23d84cec5ab8d185892f"
-  integrity sha512-5EXFxTAOPQFW7uYe59lZ5pqHBoyILQ8U3x1GgZN921EfAsLNdA2kMV0bgK8/rwJOd9JM0F40WpGxCPzHRtCG1Q==
+  version "2.29.0"
+  resolved "https://registry.yarnpkg.com/elastic-builder/-/elastic-builder-2.29.0.tgz#472a667903aa594d01f1f2058d55e7ae91990158"
+  integrity sha512-PanRadFQs/nnGV3sJOlZ9eGeSzbVBtbbtpx1bqep64EYALIaTudSEW9Eqo4gp5rWqH4VOTMFV6vPFz26o9L0KQ==
   dependencies:
-    babel-runtime "^6.26.0"
     lodash.has "^4.5.2"
     lodash.hasin "^4.5.2"
     lodash.head "^4.0.1"
@@ -1945,11 +1931,6 @@ real-require@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/real-require/-/real-require-0.1.0.tgz#736ac214caa20632847b7ca8c1056a0767df9381"
   integrity sha512-r/H9MzAWtrv8aSVjPCMFpDMl5q66GqtmmRkRjpHTsp4zBAa+snZyiQNlMONiUmEJcsnaw0wCauJ2GWODr/aFkg==
-
-regenerator-runtime@^0.11.0:
-  version "0.11.1"
-  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
-  integrity sha512-MguG95oij0fC3QV3URf4V2SDYGJhJnJGqvIIgdECeODCT98wSWDAJ94SSuVpYQUoTcGUIL6L4yNB7j1DFFHSBg==
 
 regenerator-runtime@^0.13.4:
   version "0.13.9"
