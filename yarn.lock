@@ -204,9 +204,9 @@
   integrity sha512-RNiOoTPkptFtSVzQevY/yWtZwf/RxyVnPy/OcA9HBM3MlGDnBEYL5B41H0MTn0Uec8Hi+2qUtTfG2WWZBmMejQ==
 
 "@types/identicon.js@^2.3.1":
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/@types/identicon.js/-/identicon.js-2.3.1.tgz#bbfe440a3229d6930c12d933ebcbe8603957ea75"
-  integrity sha512-QyPIfllzfVTHVJ/xX5+cOKpWuX7Zv0EKQbzTCbIn6QjMOg4bn1j73Av1LIIvRqkDV+TErJuonwZg/IOl4tbPDQ==
+  version "2.3.5"
+  resolved "https://registry.yarnpkg.com/@types/identicon.js/-/identicon.js-2.3.5.tgz#24abc464aa125421dd589f0b96356779184a583d"
+  integrity sha512-98yH/a9ZINEfHQDDiD+i7To71duqU1TV+RCw+17bLuzXmeAEFy7e5WJkhe3rmYIC9KpGpug2fHshwWXx72rk5w==
 
 "@types/json5@^0.0.29":
   version "0.0.29"
@@ -219,9 +219,9 @@
   integrity sha512-5jY9RhV7c0Z4Jy09G+NIDTsCZ5G0L5n+Z+p+Y7t5VJHM30bgwzSjVtlcBxqAj+6L/swIlvtOSzr8rBk/aNyV2g==
 
 "@types/prop-types@*":
-  version "15.7.5"
-  resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.5.tgz#5f19d2b85a98e9558036f6a3cacc8819420f05cf"
-  integrity sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==
+  version "15.7.13"
+  resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.13.tgz#2af91918ee12d9d32914feb13f5326658461b451"
+  integrity sha512-hCZTSvwbzWGvhqxp/RqVqwU999pBf2vp7hzIjiYOsl8wqOmUxkQ6ddw1cV3l8811+kdUFus/q4d1Y3E3SyEifA==
 
 "@types/react-dom@18.0.5":
   version "18.0.5"
